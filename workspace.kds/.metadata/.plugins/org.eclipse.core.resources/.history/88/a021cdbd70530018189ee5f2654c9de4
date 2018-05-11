@@ -1,0 +1,987 @@
+/*
+ ============================================================================
+ * @file    main.c (derived from main-basic.cpp)
+ * @brief   Basic C++ demo using GPIO class
+ *
+ *  Created on: 10/1/2016
+ *      Author: podonoghue
+ ============================================================================
+ */
+
+
+
+
+#ifndef PROJECT_MAIN_/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define PROJECT_MAIN_
+
+#include <stdio.h>
+#include <random>
+#include <string.h>
+#include <vector>
+
+
+#include "system.h"
+#include "derivative.h"
+#include "delay.h"
+#include "Hardware.h"
+#include "Ruby.h"
+#include "pdb.h"
+#include "pit.h"
+#include "pid.h"
+
+#define STEADY_STATE_TOLERANCE ((FULLROTATIONTICKS)/(360*3))
+
+using namespace USBDM;
+
+//Used to distribute interpreted commands
+std::vector<int> interpretedActions;
+
+//Holds a list of chars read from the pc
+std::vector<char> readCommands;
+
+void stopHere() {
+   for(;;) {
+      console.writeln("Stopped");
+#ifdef DEBUG_BUILD
+      __BKPT();
+#else
+      __WFE();
+#endif
+   }
+}
+
+void shutDown(void) {
+   // Motors off
+   Motor1::setSpeed(0);
+   Motor2::setSpeed(0);
+
+   console.writeln("System Failure");
+
+   uint32_t oldM1Position = 0;
+   uint32_t oldM2Position = 0;
+   bool stillMoving;
+
+   do {
+      // Let motors stop spinning
+      waitMS(1000);
+
+      // Check if still moving
+      uint32_t m1Position = Motor1::getPosition();
+      uint32_t m2Position = Motor2::getPosition();
+      stillMoving = ((oldM1Position != m1Position) || (oldM2Position != m2Position));
+      oldM1Position = m1Position;
+      oldM2Position = m2Position;
+
+   } while (stillMoving);
+
+   // Grippers off
+   Gripper1::open();
+   Gripper2::open();
+
+   stopHere();
+}
+
+#if 0
+/*
+ * Test the effect of ODE HSE etc on output levels
+ */
+__attribute__((unused))
+static void testODE() {
+   Ftm0Channel<1>::enable();
+   Ftm0Channel<1>::setPeriod(PWM_PERIOD);
+   Ftm0Channel<1>::setDutyCycle(50);
+
+   Ftm0Channel<1>::setPCR(PORT_PCR_MUX(4)|PORT_PCR_PS(0)|PORT_PCR_PE(0)|PORT_PCR_ODE(1)|PORT_PCR_DSE(1)); // 4V
+
+   bool ode = false;
+   bool dse = false;
+   bool pe  = false;
+   bool ps  = false;
+
+   for(;;) {
+      console.
+         write("PS=").write(ps).
+         write(",PE=").write(pe).
+         write(",ODE=").write(ode).
+         write(",DSE=").writeln(dse);
+      Ftm0Channel<1>::setPCR(PORT_PCR_MUX(4)|PORT_PCR_PS(ps)|PORT_PCR_PE(pe)|PORT_PCR_ODE(ode)|PORT_PCR_DSE(dse));
+      waitMS(2000);
+      if (pe && dse && ode) {
+         ps = !ps;
+      }
+      if (dse && ode) {
+         pe = !pe;
+      }
+      if (dse) {
+         ode = !ode;
+      }
+      dse = !dse;
+   }
+}
+
+/**
+ * Test encoders
+ *
+ * Just reports encoder values
+ */
+__attribute__((unused))
+static void testEncoders() {
+   Motor1::initialise();
+   Motor2::initialise();
+   DacOut::enable();
+
+   for (;;) {
+      DacOut::setValue(Motor2::getPosition());
+      console.
+      write("E1 =").write( Motor1::getPosition().
+      write(", E2 =").writeln( Motor2::getPosition());
+   }
+}
+#endif
+
+/**
+ * Calibrate motors and grippers
+ */
+static void calibrate() {
+   console.writeln("Calibrating gripper 1");
+   if (!Gripper1::calibrate()) {
+      console.writeln("Failed calibrate gripper 1");
+      shutDown();
+   }
+
+//   console.writeln("Calibrating gripper 2");
+//   if (!Gripper2::calibrate()) {
+//      console.writeln("Failed calibrate gripper 2");
+//      shutDown();
+//   }
+
+//   console.writeln("Calibrating motor 1");
+//   if (!Motor1::calibrate()) {
+//      console.writeln("Failed calibrate motor 1");
+//      shutDown();
+//   }
+//
+//   console.writeln("Calibrating motor 2");
+//   if (!Motor2::calibrate()) {
+//      console.writeln("Failed calibrate motor 2");
+//      shutDown();
+//   }
+}
+
+/**
+ * Check motor supply voltage
+ */
+void checkMotorSupply() {
+
+   int voltage = round(10*MotorSupplySensor::motorVoltage());
+   console.write("Motor voltage = ").write(voltage/10).write(".").writeln(voltage%10);
+
+   if (!MotorSupplySensor::isOK()) {
+      console.writeln("Insufficient motor power supply");
+      stopHere();
+   }
+}
+
+/*
+ * Test motors
+ */
+void testMotors() {
+   static constexpr int MAX_SPEED = 60;
+
+   checkMotorSupply();
+
+   Gripper1::initialise();
+   Gripper2::initialise();
+
+   Motor1::initialise();
+   Motor2::initialise();
+
+   DacOut::enable();
+
+   auto rpt = []() {
+      DacOut::setValue(Motor2::getPosition());
+      console.
+         write("E1 =").write(Motor1::getPosition()).
+         write(", E2 =").writeln(Motor2::getPosition());
+      return false;
+   };
+   for (;;) {
+
+      // Ramp motor speed
+      for (int speed=0; speed<=MAX_SPEED; speed++) {
+         Motor1::setSpeed(speed);
+         Motor2::setSpeed(-speed);
+         waitMS(50, rpt);
+      }
+      for (int speed=MAX_SPEED; speed>=0; speed--) {
+         Motor1::setSpeed(speed);
+         Motor2::setSpeed(-speed);
+         waitMS(50, rpt);
+      }
+      waitMS(500, rpt);
+
+      // Ramp motor speed other way
+      for (int speed=0; speed>=-MAX_SPEED; speed--) {
+         Motor1::setSpeed(speed);
+         Motor2::setSpeed(-speed);
+         waitMS(50, rpt);
+      }
+      for (int speed=-MAX_SPEED; speed<=0; speed++) {
+         Motor1::setSpeed(speed);
+         Motor2::setSpeed(-speed);
+         waitMS(50, rpt);
+      }
+      waitMS(500, rpt);
+   }
+
+}
+
+/**
+ * Test Grippers
+ */
+void testGrippers() {
+   for (;;) {
+      Gripper1::initialise();
+      Gripper2::initialise();
+
+      // Toggle gripper1
+      console.writeln("Gripper 1");
+      Gripper1::close();
+      waitMS(4000);
+      Gripper1::open();
+      waitMS(1000);
+
+      // Toggle gripper2
+      console.writeln("Gripper 2");
+      Gripper2::close();
+      waitMS(4000);
+      Gripper2::open();
+      waitMS(1000);
+
+      // Toggle both
+      console.writeln("Gripper 1+2");
+      Gripper1::close();
+      Gripper2::close();
+      waitMS(4000);
+      Gripper1::open();
+      Gripper2::open();
+      waitMS(1000);
+   }
+}
+
+/**
+ * Initialise system
+ */
+void initialise() {
+   TpA::setOutput();
+   TpB::setOutput();
+
+   DacOut::enable();
+
+   MotorSupplySensor::initialise();
+
+   checkMotorSupply();
+
+   Gripper1::initialise();
+   Gripper2::initialise();
+
+   Motor1::initialise();
+   Motor2::initialise();
+
+   calibrate();
+   waitMS(10);
+}
+
+double input      = 0.0;
+double output     = 0.0;
+double setPoint   = 0.0;
+
+float motor2Position() {
+   float position = Motor2::getPositionAsFloat();
+   DacOut::setValue(position);
+   return position;
+};
+
+static constexpr float pidInterval  = 500 * us;
+static constexpr float kp           = 0.2f;
+static constexpr float ki           = 5.0f;
+static constexpr float kd           = 20.0f*pidInterval;
+
+
+PID_T<Motor1::getPositionAsFloat, Motor1::setSpeed> pid1(kp, ki, kd, pidInterval, -30, +30);
+//PID_T<Motor2::getPositionAsFloat, Motor2::setSpeed> pid2(kp, ki, kd, pidInterval, -30, +30);
+// For debug - DAC outputs motor 2 position
+PID_T<motor2Position, Motor2::setSpeed> pid2(kp, ki, kd, pidInterval, -60, +60);
+
+/**
+ * Debug PID call-back
+ * Uses TpA to check timing.
+ */
+void controller() {
+   TpA::set();
+   pid2.update();
+   pid1.update();
+   TpA::clear();
+}
+
+using Timer = Pit;
+using TimerChannel = PitChannel<0>;
+
+/**
+ * Configure PID timer call-back
+ */
+void enablePid() {
+   Timer::configure(PitDebugMode_Stop);
+   TimerChannel::setCallback(controller);
+   TimerChannel::configure(pidInterval, PitChannelIrq_Enable);
+   TimerChannel::enableNvicInterrupts(true, NvicPriority_Normal);
+
+   pid1.setSetpoint(0);
+   pid1.enable();
+
+   pid2.setSetpoint(0);
+   pid2.enable();
+}
+
+int testStep = 2000;
+
+void testPid() {
+   int position = 1;
+   for(;;) {
+      auto fn = [](){
+//         double out = pid2.getOutput();
+         console.
+            write((int)pid2.getSetpoint()).write(" ").
+            write((int)pid2.getInput()).write(" ").
+            write((int)pid2.getError()).write(" ").
+            writeln(pid2.getOutput());
+//            writeln((int)out).setWidth(3).setPadding(Padding_LeadingZeroes).writeln((int)(out*1000)%1000).reset();
+         return false;
+      };
+      position = -position;
+//      int oldPosition = position;
+//      do {
+//         position = (2000*(rand()%4))-3000;
+//      } while (position == oldPosition);
+      pid2.setSetpoint(position*testStep);
+      waitMS(1000, fn);
+   }
+}
+
+bool readFromPC()
+{
+	bool result = false;
+
+	/*Not standard library,
+	 *Add readCharNoBlock method by copying readChar and changing check for (ch < 0)
+	 *Return NULL instead of looping
+	 */
+	int ch = console.readCharNoBlock();
+
+	if(ch == NULL)
+	{
+		result = false;
+	}
+
+	else//Character read in
+	{
+		char readCharacter = (char)ch;
+
+		//Interpret user commands
+		if((readCharacter == 's') || (readCharacter == 'S'))
+		{
+			stopHere();
+		}
+
+		else//Set outputs if not recognised as a command
+		{
+			readCommands.push_back(readCharacter);
+
+			console.writeln();
+
+			/*int i = 0;
+			while(i < readCommands.size())
+			{
+				console.write(readCommands[i]);
+
+				i += 1;
+			}
+
+			console.writeln();//*/
+
+			result = true;
+		}
+	}
+
+	return result;
+}
+
+enum TrackerState {Turning1, Turning2, Gripping1, Gripping2, Free, Stopped};
+
+TrackerState currentTrackedState = Free;
+
+u_int PIDUpdaterIndex = 0;
+
+/*
+ * Updates the pids and grippers as well as checking for steady states before updating them.
+ * Returns true if an update was made
+ */
+
+constexpr int MOTOR_ACTION_OFFSET = 0;
+constexpr int GRIPPER_ACTION_OFFSET = 2;
+
+bool ControlUpdate()
+{
+/*
+ * -4 open gripper2
+ * -3 open gripper1
+ * -2 rotate motor2 -90 degrees
+ * -1 rotate motor1 -90 degrees
+ * 0 no action
+ * 1 rotate motor1 90 degrees
+ * 2 rotate motor2 90 degrees
+ * 3 close gripper1
+ * 4 close gripper2
+ */
+	bool result = false;
+
+	bool steadyStateFound = false;
+
+	if(currentTrackedState == Stopped)
+	{
+		stopHere();
+	}
+
+	//Set steady state
+	//Seperate cheks to save resources
+	if(currentTrackedState == Turning1)
+	{
+		steadyStateFound = pid1.getIsSteadyState(STEADY_STATE_TOLERANCE);
+	}
+
+	if(currentTrackedState == Turning2)
+	{
+		steadyStateFound = pid2.getIsSteadyState(STEADY_STATE_TOLERANCE);
+	}
+
+	if(currentTrackedState == Gripping1)
+	{
+		//steadyStateFound = ;
+		stopHere();
+
+	}
+
+	if(currentTrackedState == Gripping2)
+	{
+		//steadyStateFound = ;
+		stopHere();
+	}
+
+
+	//When steady states are achieved update tracker
+	if(steadyStateFound)
+	{
+		currentTrackedState = Free;
+	}
+
+	else
+	{
+		result = false;
+	}
+
+	if(currentTrackedState == Free)
+	{
+		if(PIDUpdaterIndex < interpretedActions.size())
+		{
+			int actionToComplete = interpretedActions[PIDUpdaterIndex];//read from interpreted commands
+
+			PIDUpdaterIndex ++;
+
+			console.write("Actioning ").writeln(actionToComplete);
+
+			if(actionToComplete == 0)
+			{
+				//Nothing
+			}
+
+			else if(actionToComplete == 1) //Rotate Motor 1 90 degrees
+			{
+				currentTrackedState = Turning1;
+
+				pid1.setSetpoint(pid1.getSetpoint() + QUARTERROTATIONTICKS);
+
+				result = true;
+			}
+
+			else if(actionToComplete == -1) //Rotate Motor 1 -90 degrees
+			{
+				currentTrackedState = Turning1;
+
+				pid1.setSetpoint(pid1.getSetpoint() - QUARTERROTATIONTICKS);
+
+				result = true;
+			}
+
+			else if(actionToComplete == 2) //Rotate Motor 2 90 degrees
+			{
+				currentTrackedState = Turning2;
+
+				pid2.setSetpoint(pid2.getSetpoint() + QUARTERROTATIONTICKS);
+
+				result = true;
+			}
+
+			else if(actionToComplete == -2) //Rotate Motor 2 -90 degrees
+			{
+				currentTrackedState = Turning2;
+
+				pid2.setSetpoint(pid2.getSetpoint() - QUARTERROTATIONTICKS);
+
+				result = true;
+			}
+
+			/*else if(actionToComplete == 3) //Close gripper1
+			{
+				currentTrackedState = Gripping1;
+
+				Gripper1::close();
+
+				result = true;
+			}
+
+			else if(actionToComplete == 4) //Close gripper2
+			{
+				currentTrackedState = Gripping2;
+
+				Gripper2::close();
+
+				result = true;
+			}
+
+			else if(actionToComplete == -3) //Open gripper1
+			{
+				currentTrackedState = Gripping1;
+
+				Gripper1::open();
+
+				result = true;
+			}
+
+			else if(actionToComplete == -4) //Open gripper2
+			{
+				currentTrackedState = Gripping2;
+
+				Gripper2::open();
+
+				result = true;
+			}//*/
+
+		}
+
+		else
+		{
+			result = false;
+		}
+	}
+
+	return result;
+}
+
+
+//Stores the current orientation of the cube after execution of all actions
+char cubeOrientation[2] = {'B', 'D'};
+
+//Stores the values of the two possible loops of cube faces
+const char loops[2][4] = {{'D', 'R', 'U', 'L'}, {'D', 'F', 'U', 'B'}};
+
+/*
+ *Returns the index of the first loop containing toFind
+ *
+ */
+int * loopOfCharacter(char toFind)
+{
+	int result[2];
+
+	bool breakout = false;
+
+	u_int i = 0;
+	while(i < sizeof(loops))
+	{
+		u_int j = 0;
+		while(j < sizeof(loops[i]))
+		{
+			//Match found
+			if(loops[i][j] == toFind)
+			{
+				breakout = true;
+
+				result[0] = i;
+				result[1] = j;
+
+				break;
+			}
+
+			j += 1;
+		}
+
+		if(breakout)
+		{
+			break;
+		}
+
+		i += 1;
+	}
+
+	return result;
+}
+
+/*
+ * Finds the series of actions necessary to complete the given command
+ *
+ * Returns an array of actions
+ */
+/*int * convertCommandToActions(char toFind)
+{
+	int finalDirection;
+
+	constexpr int directionForClockwise = 1;
+
+	if(toupper(toFind) == toFind)//Already upper case
+	{
+		finalDirection = directionForClockwise;
+	}
+
+	else
+	{
+		finalDirection = -directionForClockwise;
+	}
+
+	int offsetForAction = -1;//-1 is an error code
+
+	int loopIndexFind = 0;// Whether toFind is in loop 1,2 ...
+	int positionFind = 0;// The position in loop[loopIndex] which holds toFind
+
+	bool breakout = false;
+
+	//Find where the toFind is
+	u_int i = 0;
+	while(i < sizeof(loops))
+	{
+		u_int j = 0;
+		while(j < sizeof(loops[i]))
+		{
+			//Match found
+			if(loops[i][j] == toFind)
+			{
+				breakout = true;
+
+				loopIndexFind = i;
+				positionFind = j;
+
+				break;
+			}
+
+			j += 1;
+		}
+
+		if(breakout)
+		{
+			break;
+		}
+
+		i += 1;
+	}
+
+
+	//Find a motor on the loop and determine if the action offset needs to be 0 or 1
+	//One motor in guaranteed to be on the loop as one motor occupies each loop
+
+	int positionMotor = 0;
+
+	char motorFace = cubeOrientation[0];//Get side held by gripper 1
+
+	i = 0;
+	while(i < sizeof(loops[loopIndexFind]))
+	{
+		if(motorFace == loops[loopIndexFind][i])
+		{
+			offsetForAction = 1;//Use motor 2 as motor 1 is on the loop
+
+			positionMotor = i;
+
+			cubeOrientation[0] = toupper(toFind);//Update orientation
+
+			break;
+		}
+
+		i += 1;
+	}
+
+	if(offsetForAction == -1)//not found, try motor 2
+	{
+		motorFace = cubeOrientation[1];//Get side held by gripper 2
+
+		i = 0;
+
+		while(i < sizeof(loops[loopIndexFind]))
+		{
+			if(motorFace == loops[loopIndexFind][i])
+			{
+				offsetForAction = 0;//Use motor 1 as motor 2 is on the loop
+
+				positionMotor = i;
+
+				cubeOrientation[1] = toupper(toFind);//Update orientation
+
+				break;
+			}
+
+			i += 1;
+		}
+	}
+
+	int difference = positionMotor - positionFind;
+
+	int movesToMake = abs(difference);
+
+	int direction = difference/movesToMake;//Should only be 1 or -1
+
+	//Find the quickest path, for each 3 rotations removed, a direction change should be incurred
+	while(movesToMake > 2)
+	{
+		//Reduction of remove 3 in 1 direction and add 1 in the other direction
+		{
+			movesToMake -= 2;
+
+			direction *= -1;//Change direction
+		}
+	}
+
+	std::vector<int> result;
+
+	result.push_back(-1 * (GRIPPER_ACTION_OFFSET + offsetForAction));//open gripper
+
+	int spamAction = direction * (MOTOR_ACTION_OFFSET + offsetForAction);//Should indicate a motor turn
+
+	while(movesToMake > 0)
+	{
+		result.push_back(spamAction);
+
+		movesToMake -= 1;
+	}
+
+	result.push_back(-1 * (GRIPPER_ACTION_OFFSET + offsetForAction));//close gripper previously opened
+
+	//Apply the turn which was designated by toFind
+	result.push_back(finalDirection * MOTOR_ACTION_OFFSET + (offsetForAction % 2));//Affects the opposite motor to the motor designated by offsetForAction
+
+	return &result[0];
+}//*/
+
+
+
+
+
+//The offset of the motor in right turns at completion of the current interpreted commands
+int plannedOffsetMotor1 = 0;
+int plannedOffsetMotor2 = 0;
+
+int constexpr MAXPLANNEDOFFSET = 3;
+int constexpr MINPLANNEDOFFSET = -MAXPLANNEDOFFSET;
+
+u_int commandInterpreterIndex = 0;
+
+/*
+ *Reads the next entry from commands if one exists and converts it to an interpreted set of commands
+ *
+ * Returns true if an entry was read
+ *
+ */
+bool interpretCommand()
+{
+	int constexpr rewind1[4] = {-3, -1, -1, 3};//Sequence for putting the position of motor1 back two indexes
+	int constexpr rewind2[4] = {-4, -2, -2, 4};//Sequence for putting the position of motor2 back two indexes
+	int constexpr fastforward1[4] = {-3, 1, 1, 3};//Sequence for putting the position of motor1 forward two indexes
+	int constexpr fastforward2[4] = {-4, 2, 2, 4};//Sequence for putting the position of motor2 forward two indexes
+
+
+	bool result = false;
+
+	if(commandInterpreterIndex < readCommands.size())
+	{
+		char toInterpret = readCommands[commandInterpreterIndex];
+		commandInterpreterIndex ++;
+
+		std::vector<int> commands;
+
+		if(toInterpret == 'a')
+		{
+			commands.push_back(2);
+		}
+
+		else if(toInterpret == 'b')
+		{
+			commands.push_back(-2);
+		}
+
+		else
+		{
+			console.write(toInterpret).writeln(" couldn't be interpreted");
+		}
+
+		//if commands were established
+		if(commands.size() != 0)
+		{
+			//Integrity check for out of bounds moves
+
+			u_int length = commands.size();
+
+			u_int i = 0;
+			while(i < length)
+			{
+				//Update world model for motor offsets
+				if(commands[i] == -1)
+				{
+					if(plannedOffsetMotor1 == MINPLANNEDOFFSET)
+					{
+						const int *precalc = fastforward1;//Pointer to a (const int) not a constatn pointer to an int
+
+						u_int j = 0;
+						while(j < sizeof(precalc))
+						{
+							interpretedActions.push_back(precalc[j]);
+
+							j += 1;
+						}
+
+						plannedOffsetMotor1 += 2;//two moves in fastforward
+					}
+
+					interpretedActions.push_back(commands[i]);
+
+					plannedOffsetMotor1 -= 1;
+				}
+
+				else if(commands[i] == 1)
+				{
+					if(plannedOffsetMotor1 == MAXPLANNEDOFFSET)
+					{
+						const int *precalc = rewind1;//Pointer to a (const int) not a constatn pointer to an int
+
+						u_int j = 0;
+						while(j < sizeof(precalc))
+						{
+							interpretedActions.push_back(precalc[j]);
+
+							j += 1;
+						}
+
+						plannedOffsetMotor1 -= 2;//two moves in rewind
+					}
+
+					interpretedActions.push_back(commands[i]);
+
+					plannedOffsetMotor1 += 1;
+				}
+
+				else if(commands[i] == -2)
+				{
+					if(plannedOffsetMotor2 == MINPLANNEDOFFSET)
+					{
+						const int *precalc = fastforward2;//Pointer to a (const int) not a constatn pointer to an int
+
+						u_int j = 0;
+						while(j < sizeof(precalc))
+						{
+							interpretedActions.push_back(precalc[j]);
+
+							j += 1;
+						}
+
+						plannedOffsetMotor2 += 2;//two moves in fastforward
+					}
+
+					interpretedActions.push_back(commands[i]);
+
+					plannedOffsetMotor2 -= 1;
+				}
+
+				else if(commands[i] == 2)
+				{
+					if(plannedOffsetMotor2 == MAXPLANNEDOFFSET)
+					{
+						const int *precalc = rewind2;//Pointer to a (const int) not a constatn pointer to an int
+
+						u_int j = 0;
+						while(j < sizeof(precalc))
+						{
+							interpretedActions.push_back(precalc[j]);
+
+							j += 1;
+						}
+
+						plannedOffsetMotor2 -= 2;//two moves in rewind
+					}
+
+					interpretedActions.push_back(commands[i]);
+
+					plannedOffsetMotor2 += 1;
+				}
+
+				i += 1;
+			}
+		}
+	}
+
+	return result;
+}
+
+// C++ program to demonstrate
+// accessing of data members
+
+void thread1()
+{
+	//Reading from PC
+	readFromPC();
+
+	//Check PIDs
+	ControlUpdate();
+
+	//Interpret commands
+	interpretCommand();
+
+	//Check PIDs
+	ControlUpdate();
+}
+
+int main() {
+   console.writeln("Starting");
+
+   console.write("Core clock = ").writeln(::SystemCoreClock);
+   console.write("Bus clock  = ").writeln(::SystemBusClock);
+
+   initialise();
+
+//   enablePid();
+//
+//   pid1.setSetpoint(0);
+//   pid2.setSetpoint(0);
+
+//   while(true)
+//   {
+//	   thread1();
+//   }
+
+int gap = 1000;
+   while(true)
+   {
+	   console.write("Closed: ").writeln(Gripper1::close());
+	   waitMS(10000);
+	   console.write("Open: ").writeln(Gripper1::open());
+	   waitMS(10000);
+   }
+   return 0;
+}
+
+
+#endif /* PROJECT_MAIN_ */

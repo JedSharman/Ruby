@@ -1,0 +1,49 @@
+/*
+ * pid.h
+ *
+ *  Created on: 18 Apr 2018
+ *      Author: Jed Sharman
+ */
+
+#ifndef PROJECT_HEADERS_SERVER_H_
+#define PROJECT_HEADERS_SERVER_H_
+
+#include <string.h>
+
+/*
+ * A server for reading from the standard console without blocking, returns as soon as it's read a character.
+ * */
+template<PID::InFunction inputFn, PID::OutFunction outputFn>
+class SERVER {
+
+private:
+	int
+
+	string _readData = "";
+
+public:
+
+   /**
+    * Constructor
+    */
+   SERVER()
+   {
+
+	   _readData = "";
+   }
+
+   void Read(int timeoutMs)
+   {
+	   auto startTime = std::chrono::system_clock::now();
+
+
+
+	   while()
+	   {
+
+	   }
+   }
+
+};
+
+#endif // PROJECT_HEADERS_SERVER_H_

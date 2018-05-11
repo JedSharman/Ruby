@@ -1,0 +1,62 @@
+/*
+ * pid.h
+ *
+ *  Created on: 18 Apr 2018
+ *      Author: Jed Sharman
+ */
+
+#ifndef PROJECT_HEADERS_SERVER_H_
+#define PROJECT_HEADERS_SERVER_H_
+
+#include <string.h>
+#include <chrono>
+#include <ctime>
+
+int constexpr S_TO_MS = 1000;
+
+/*
+ * A server for reading from the standard console without blocking, returns as soon as it's read a character.
+ * */
+class SERVER {
+
+private:
+
+
+
+public:
+
+   /**
+    * Constructor
+    */
+   SERVER()
+   {
+
+   }
+
+   long getCurrentTime()
+   {
+	   auto now = std::chrono::system_clock::now();
+
+	   auto nowMs = std::chrono::time_point_cast<std::chrono::milliseconds>(now);
+
+	   auto value = std::chrono::duration_cast<std::chrono::milliseconds>(nowMs.time_since_epoch());
+
+	   return value.count();
+   }
+
+   long Read(float timeoutS)
+   {
+	   int timeoutMs = (float)(timeoutS * S_TO_MS);
+
+	   long startTime = getCurrentTime();
+
+	   while((getCurrentTime() - startTime) < timeoutMs)
+	   {
+
+	   }
+
+	   return (getCurrentTime() - startTime);
+   }
+};
+
+#endif // PROJECT_HEADERS_SERVER_H_

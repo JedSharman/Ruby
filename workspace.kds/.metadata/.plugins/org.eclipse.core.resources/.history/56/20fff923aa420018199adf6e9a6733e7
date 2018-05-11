@@ -1,0 +1,467 @@
+/*
+ ============================================================================
+ * @file    main.c (derived from main-basic.cpp)
+ * @brief   Basic C++ demo using GPIO class
+ *
+ *  Created on: 10/1/2016
+ *      Author: podonoghue
+ ============================================================================
+ */
+#include <stdio.h>
+#include <random>
+#include <string.h>
+#include "system.h"
+#include "derivative.h"
+#include "delay.h"
+#include "Hardware.h"
+#include "Ruby.h"
+#include "pdb.h"
+#include "pit.h"
+#include "pid.h"
+
+using namespace USBDM;
+
+void stopHere() {
+   for(;;) {
+      console.writeln("Stopped");
+#ifdef DEBUG_BUILD
+      __BKPT();
+#else
+      __WFE();
+#endif
+   }
+}
+
+void shutDown(void) {
+   // Motors off
+   Motor1::setSpeed(0);
+   Motor2::setSpeed(0);
+
+   console.writeln("System Failure");
+
+   uint32_t oldM1Position = 0;
+   uint32_t oldM2Position = 0;
+   bool stillMoving;
+
+   do {
+      // Let motors stop spinning
+      waitMS(1000);
+
+      // Check if still moving
+      uint32_t m1Position = Motor1::getPosition();
+      uint32_t m2Position = Motor2::getPosition();
+      stillMoving = ((oldM1Position != m1Position) || (oldM2Position != m2Position));
+      oldM1Position = m1Position;
+      oldM2Position = m2Position;
+
+   } while (stillMoving);
+
+   // Grippers off
+   Gripper1::open();
+   Gripper2::open();
+
+   stopHere();
+}
+
+#if 0
+/*
+ * Test the effect of ODE HSE etc on output levels
+ */
+__attribute__((unused))
+static void testODE() {
+   Ftm0Channel<1>::enable();
+   Ftm0Channel<1>::setPeriod(PWM_PERIOD);
+   Ftm0Channel<1>::setDutyCycle(50);
+
+   Ftm0Channel<1>::setPCR(PORT_PCR_MUX(4)|PORT_PCR_PS(0)|PORT_PCR_PE(0)|PORT_PCR_ODE(1)|PORT_PCR_DSE(1)); // 4V
+
+   bool ode = false;
+   bool dse = false;
+   bool pe  = false;
+   bool ps  = false;
+
+   for(;;) {
+      console.
+         write("PS=").write(ps).
+         write(",PE=").write(pe).
+         write(",ODE=").write(ode).
+         write(",DSE=").writeln(dse);
+      Ftm0Channel<1>::setPCR(PORT_PCR_MUX(4)|PORT_PCR_PS(ps)|PORT_PCR_PE(pe)|PORT_PCR_ODE(ode)|PORT_PCR_DSE(dse));
+      waitMS(2000);
+      if (pe && dse && ode) {
+         ps = !ps;
+      }
+      if (dse && ode) {
+         pe = !pe;
+      }
+      if (dse) {
+         ode = !ode;
+      }
+      dse = !dse;
+   }
+}
+
+/**
+ * Test encoders
+ *
+ * Just reports encoder values
+ */
+__attribute__((unused))
+static void testEncoders() {
+   Motor1::initialise();
+   Motor2::initialise();
+   DacOut::enable();
+
+   for (;;) {
+      DacOut::setValue(Motor2::getPosition());
+      console.
+      write("E1 =").write( Motor1::getPosition().
+      write(", E2 =").writeln( Motor2::getPosition());
+   }
+}
+#endif
+
+/**
+ * Calibrate motors and grippers
+ */
+static void calibrate() {
+//   console.writeln("Calibrating gripper 1");
+//   if (!Gripper1::calibrate()) {
+//      console.writeln("Failed calibrate gripper 1");
+//      shutDown();
+//   }
+//
+//   console.writeln("Calibrating gripper 2");
+//   if (!Gripper2::calibrate()) {
+//      console.writeln("Failed calibrate gripper 2");
+//      shutDown();
+//   }
+
+//   console.writeln("Calibrating motor 1");
+//   if (!Motor1::calibrate()) {
+//      console.writeln("Failed calibrate motor 1");
+//      shutDown();
+//   }
+
+   console.writeln("Calibrating motor 2");
+   if (!Motor2::calibrate()) {
+      console.writeln("Failed calibrate motor 2");
+      shutDown();
+   }
+}
+
+/**
+ * Check motor supply voltage
+ */
+void checkMotorSupply() {
+
+   int voltage = round(10*MotorSupplySensor::motorVoltage());
+   console.write("Motor voltage = ").write(voltage/10).write(".").writeln(voltage%10);
+
+   if (!MotorSupplySensor::isOK()) {
+      console.writeln("Insufficient motor power supply");
+      stopHere();
+   }
+}
+
+/*
+ * Test motors
+ */
+void testMotors() {
+   static constexpr int MAX_SPEED = 60;
+
+   checkMotorSupply();
+
+   Gripper1::initialise();
+   Gripper2::initialise();
+
+   Motor1::initialise();
+   Motor2::initialise();
+
+   DacOut::enable();
+
+   auto rpt = []() {
+      DacOut::setValue(Motor2::getPosition());
+      console.
+         write("E1 =").write(Motor1::getPosition()).
+         write(", E2 =").writeln(Motor2::getPosition());
+      return false;
+   };
+   for (;;) {
+
+      // Ramp motor speed
+      for (int speed=0; speed<=MAX_SPEED; speed++) {
+         Motor1::setSpeed(speed);
+         Motor2::setSpeed(-speed);
+         waitMS(50, rpt);
+      }
+      for (int speed=MAX_SPEED; speed>=0; speed--) {
+         Motor1::setSpeed(speed);
+         Motor2::setSpeed(-speed);
+         waitMS(50, rpt);
+      }
+      waitMS(500, rpt);
+
+      // Ramp motor speed other way
+      for (int speed=0; speed>=-MAX_SPEED; speed--) {
+         Motor1::setSpeed(speed);
+         Motor2::setSpeed(-speed);
+         waitMS(50, rpt);
+      }
+      for (int speed=-MAX_SPEED; speed<=0; speed++) {
+         Motor1::setSpeed(speed);
+         Motor2::setSpeed(-speed);
+         waitMS(50, rpt);
+      }
+      waitMS(500, rpt);
+   }
+
+}
+
+/**
+ * Test Grippers
+ */
+void testGrippers() {
+   for (;;) {
+      Gripper1::initialise();
+      Gripper2::initialise();
+
+      // Toggle gripper1
+      console.writeln("Gripper 1");
+      Gripper1::close();
+      waitMS(4000);
+      Gripper1::open();
+      waitMS(1000);
+
+      // Toggle gripper2
+      console.writeln("Gripper 2");
+      Gripper2::close();
+      waitMS(4000);
+      Gripper2::open();
+      waitMS(1000);
+
+      // Toggle both
+      console.writeln("Gripper 1+2");
+      Gripper1::close();
+      Gripper2::close();
+      waitMS(4000);
+      Gripper1::open();
+      Gripper2::open();
+      waitMS(1000);
+   }
+}
+
+/**
+ * Initialise system
+ */
+void initialise() {
+   TpA::setOutput();
+   TpB::setOutput();
+
+   DacOut::enable();
+
+   MotorSupplySensor::initialise();
+
+   checkMotorSupply();
+
+   Gripper1::initialise();
+   Gripper2::initialise();
+//
+   Motor1::initialise();
+   Motor2::initialise();
+
+   calibrate();
+   waitMS(10);
+}
+
+double input      = 0.0;
+double output     = 0.0;
+double setPoint   = 0.0;
+
+float motor2Position() {
+   float position = Motor2::getPositionAsFloat();
+   DacOut::setValue(position);
+   return position;
+};
+
+static constexpr float pidInterval  = 500 * us;
+static constexpr float kp           = 0.2f;
+static constexpr float ki           = 0.0f;
+static constexpr float kd           = 10.0f*pidInterval;
+
+
+PID_T<Motor1::getPositionAsFloat, Motor1::setSpeed> pid1(kp, ki, kd, pidInterval, -30, +30);
+//PID_T<Motor2::getPositionAsFloat, Motor2::setSpeed> pid2(kp, ki, kd, pidInterval, -30, +30);
+// For debug - DAC outputs motor 2 position
+PID_T<motor2Position, Motor2::setSpeed> pid2(kp, ki, kd, pidInterval, -60, +60);
+
+/**
+ * Debug PID call-back
+ * Uses TpA to check timing.
+ */
+void controller() {
+   TpA::set();
+   console.writeln("updating");
+   pid2.update();
+   TpA::clear();
+}
+
+using Timer = Pit;
+using TimerChannel = PitChannel<0>;
+
+/**
+ * Configure PID timer call-back
+ */
+void enablePid() {
+   Timer::configure(PitDebugMode_Stop);
+   TimerChannel::configure(pidInterval);
+   TimerChannel::setCallback(controller);
+   TimerChannel::enableInterrupts();
+
+//   pid1.setSetpoint(0);
+//   pid1.enable();
+
+   pid2.setSetpoint(0);
+   pid2.enable();
+}
+
+int testStep = 2000;
+
+void testPid() {
+   int position = 1;
+   for(;;) {
+      auto fn = [](){
+//         double out = pid2.getOutput();
+         console.
+            write((int)pid2.getSetpoint()).write(" ").
+            write((int)pid2.getInput()).write(" ").
+            write((int)pid2.getError()).write(" ").
+            writeln(pid2.getOutput());
+//            writeln((int)out).setWidth(3).setPadding(Padding_LeadingZeroes).writeln((int)(out*1000)%1000).reset();
+         pid2.update();
+
+         return false;
+      };
+      position = -position;
+//      int oldPosition = position;
+//      do {
+//         position = (2000*(rand()%4))-3000;
+//      } while (position == oldPosition);
+      pid2.setSetpoint(position*testStep);
+
+      waitMS(500, fn);
+   }
+}
+
+int _offset = 0;
+
+void JedsController()
+{
+	 float speederz = 20;
+	   float scale = 1.1;
+
+	   int maxSpeed = 80;
+
+	while (1)
+	   {
+		   int pos = Motor2::getPosition();
+
+		   speederz = (float)(_offset - pos);
+
+		   speederz *= scale;
+
+		   if(speederz > maxSpeed)
+		   {
+			   speederz = maxSpeed;
+		   }
+
+		   else if (speederz < -maxSpeed)
+		   {
+			   speederz = -maxSpeed;
+		   }
+
+		   console.write("Pos=").write(Motor2::getPosition()).write(" Speed=").writeln(speederz);
+
+		   Motor2::setSpeed(speederz);
+	   }
+}
+
+int main() {
+   console.writeln("Starting");
+
+   console.write("Core clock = ").writeln(::SystemCoreClock);
+   console.write("Bus clock  = ").writeln(::SystemBusClock);
+
+   char buff[100];
+
+//   for(;;) {
+//      // Use console.gets() or fgets() - avoid gets() as it fails to do some low-level initialisation
+//      fgets(buff, sizeof(buff), stdin);
+////      console.gets(buff,  sizeof(buff));
+//      console.writeln(buff);
+//   }
+   initialise();
+
+   enablePid();
+
+//   waitMS(200);
+//   pid2.enable(false);
+//
+//   Gripper2::close();
+//
+//   for(;;) {
+//      printf("o=%s c=%s\n", USBDM::GpioC<0>::read()?"T":"F", USBDM::GpioC<1>::read()?"T":"F");
+//   }
+//   testGrippers();
+//   testEncoders();
+
+   //testPid();
+
+   pid2.setSetpoint((float)TICKS_PER_ROTATION);
+
+   while(1)
+   {
+	   pid2.update();
+
+	   console.writeln(Motor2::getPosition());
+   }
+
+
+   for(;;) {
+      console.gets(buff,  sizeof(buff));
+      const char *cmd  = strtok(buff, " ");
+      const char *arg1 = strtok(0, " ");
+      const char *arg2 = strtok(0, " ");
+      if (strcmp(cmd, "p") == 0) {
+         int position = atoi(arg2);
+         switch (position) {
+         case 0:
+         case 1:
+         case 2:
+         case 3:
+            break;
+         default:
+            continue;
+         }
+         int motor = atoi(arg1);
+         switch (motor) {
+         case 1:
+            pid1.setSetpoint(position*1000.0);
+            break;
+         case 2:
+            pid2.setSetpoint(position*1000.0);
+            break;
+         default:
+            continue;
+         }
+      }
+      if (strcmp(cmd, "s") == 0) {
+         shutDown();
+      }
+   }
+//   testPid();
+//   testEncoders();
+//   testGrippers();
+//   testMotors();
+   return 0;
+}

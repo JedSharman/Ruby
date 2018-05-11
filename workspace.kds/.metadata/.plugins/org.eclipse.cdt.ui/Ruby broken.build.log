@@ -1,0 +1,105 @@
+20:11:13 **** Build of configuration Debug for project Ruby broken ****
+"C:\\Program Files (x86)\\pgo\\USBDM 4.12.1.210\\usbdm-make" all 
+'Building file: ../Startup_Code/console.cpp'
+'Invoking: ARM C++ Compiler'
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -fno-rtti -Wall -Wextra -DDEBUG_BUILD -I"C:/Users/jaeha/workspace.kds/Ruby broken/Sources" -I"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Headers" -fno-exceptions -std=gnu++11 -c -fmessage-length=0 -MT"Startup_Code/console.o" -MMD -MP -MF"Startup_Code/console.d" -MT"Startup_Code/console.d"  -o "Startup_Code/console.o" ../Startup_Code/console.cpp
+'Finished building: ../Startup_Code/console.cpp'
+' '
+'Building file: ../Startup_Code/mcg.cpp'
+'Invoking: ARM C++ Compiler'
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -fno-rtti -Wall -Wextra -DDEBUG_BUILD -I"C:/Users/jaeha/workspace.kds/Ruby broken/Sources" -I"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Headers" -fno-exceptions -std=gnu++11 -c -fmessage-length=0 -MT"Startup_Code/mcg.o" -MMD -MP -MF"Startup_Code/mcg.d" -MT"Startup_Code/mcg.d"  -o "Startup_Code/mcg.o" ../Startup_Code/mcg.cpp
+'Finished building: ../Startup_Code/mcg.cpp'
+' '
+'Building file: ../Startup_Code/newlib_stubs.c'
+'Invoking: ARM C Compiler'
+arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -Wall -Wextra -DDEBUG_BUILD -I"C:/Users/jaeha/workspace.kds/Ruby broken/Sources" -I"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Headers" -std=c11 -c -fmessage-length=0 -MT"Startup_Code/newlib_stubs.o" -MMD -MP -MF"Startup_Code/newlib_stubs.d" -MT"Startup_Code/newlib_stubs.d"  -o "Startup_Code/newlib_stubs.o" ../Startup_Code/newlib_stubs.c
+'Finished building: ../Startup_Code/newlib_stubs.c'
+' '
+'Building file: ../Startup_Code/rtc.cpp'
+'Invoking: ARM C++ Compiler'
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -fno-rtti -Wall -Wextra -DDEBUG_BUILD -I"C:/Users/jaeha/workspace.kds/Ruby broken/Sources" -I"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Headers" -fno-exceptions -std=gnu++11 -c -fmessage-length=0 -MT"Startup_Code/rtc.o" -MMD -MP -MF"Startup_Code/rtc.d" -MT"Startup_Code/rtc.d"  -o "Startup_Code/rtc.o" ../Startup_Code/rtc.cpp
+'Finished building: ../Startup_Code/rtc.cpp'
+' '
+'Building file: ../Startup_Code/security.c'
+'Invoking: ARM C Compiler'
+arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -Wall -Wextra -DDEBUG_BUILD -I"C:/Users/jaeha/workspace.kds/Ruby broken/Sources" -I"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Headers" -std=c11 -c -fmessage-length=0 -MT"Startup_Code/security.o" -MMD -MP -MF"Startup_Code/security.d" -MT"Startup_Code/security.d"  -o "Startup_Code/security.o" ../Startup_Code/security.c
+'Finished building: ../Startup_Code/security.c'
+' '
+'Building file: ../Startup_Code/startup_ARMLtdGCC.S'
+'Invoking: ARM Assembler'
+arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -Wall -Wextra -x assembler-with-cpp -DDEBUG_BUILD -I"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Headers" -Wall -Wextra -c -fmessage-length=0  -o "Startup_Code/startup_ARMLtdGCC.o" ../Startup_Code/startup_ARMLtdGCC.S
+'Finished building: ../Startup_Code/startup_ARMLtdGCC.S'
+' '
+'Building file: ../Startup_Code/system-gcc.cpp'
+'Invoking: ARM C++ Compiler'
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -fno-rtti -Wall -Wextra -DDEBUG_BUILD -I"C:/Users/jaeha/workspace.kds/Ruby broken/Sources" -I"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Headers" -fno-exceptions -std=gnu++11 -c -fmessage-length=0 -MT"Startup_Code/system-gcc.o" -MMD -MP -MF"Startup_Code/system-gcc.d" -MT"Startup_Code/system-gcc.d"  -o "Startup_Code/system-gcc.o" ../Startup_Code/system-gcc.cpp
+'Finished building: ../Startup_Code/system-gcc.cpp'
+' '
+'Building file: ../Startup_Code/system.cpp'
+'Invoking: ARM C++ Compiler'
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -fno-rtti -Wall -Wextra -DDEBUG_BUILD -I"C:/Users/jaeha/workspace.kds/Ruby broken/Sources" -I"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Headers" -fno-exceptions -std=gnu++11 -c -fmessage-length=0 -MT"Startup_Code/system.o" -MMD -MP -MF"Startup_Code/system.d" -MT"Startup_Code/system.d"  -o "Startup_Code/system.o" ../Startup_Code/system.cpp
+'Finished building: ../Startup_Code/system.cpp'
+' '
+'Building file: ../Startup_Code/vectors.cpp'
+'Invoking: ARM C++ Compiler'
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -fno-rtti -Wall -Wextra -DDEBUG_BUILD -I"C:/Users/jaeha/workspace.kds/Ruby broken/Sources" -I"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Headers" -fno-exceptions -std=gnu++11 -c -fmessage-length=0 -MT"Startup_Code/vectors.o" -MMD -MP -MF"Startup_Code/vectors.d" -MT"Startup_Code/vectors.d"  -o "Startup_Code/vectors.o" ../Startup_Code/vectors.cpp
+'Finished building: ../Startup_Code/vectors.cpp'
+' '
+'Building file: ../Sources/Ruby.cpp'
+'Invoking: ARM C++ Compiler'
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -fno-rtti -Wall -Wextra -DDEBUG_BUILD -I"C:/Users/jaeha/workspace.kds/Ruby broken/Sources" -I"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Headers" -fno-exceptions -std=gnu++11 -c -fmessage-length=0 -MT"Sources/Ruby.o" -MMD -MP -MF"Sources/Ruby.d" -MT"Sources/Ruby.d"  -o "Sources/Ruby.o" ../Sources/Ruby.cpp
+../Sources/Ruby.cpp: In function 'int controller(int)':
+../Sources/Ruby.cpp:358:16: warning: unused variable 'maximumAngle' [-Wunused-variable]
+  int constexpr maximumAngle = 5000;//largest acceptable angle for an arm to turn to
+                ^
+../Sources/Ruby.cpp:359:16: warning: unused variable 'minimumAngle' [-Wunused-variable]
+  int constexpr minimumAngle = 0; //smallest acceptable angle for an arm to turn to
+                ^
+'Finished building: ../Sources/Ruby.cpp'
+' '
+'Building file: ../Sources/delay.cpp'
+'Invoking: ARM C++ Compiler'
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -fno-rtti -Wall -Wextra -DDEBUG_BUILD -I"C:/Users/jaeha/workspace.kds/Ruby broken/Sources" -I"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Headers" -fno-exceptions -std=gnu++11 -c -fmessage-length=0 -MT"Sources/delay.o" -MMD -MP -MF"Sources/delay.d" -MT"Sources/delay.d"  -o "Sources/delay.o" ../Sources/delay.cpp
+'Finished building: ../Sources/delay.cpp'
+' '
+'Building file: ../Sources/ftfe.cpp'
+'Invoking: ARM C++ Compiler'
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -fno-rtti -Wall -Wextra -DDEBUG_BUILD -I"C:/Users/jaeha/workspace.kds/Ruby broken/Sources" -I"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Headers" -fno-exceptions -std=gnu++11 -c -fmessage-length=0 -MT"Sources/ftfe.o" -MMD -MP -MF"Sources/ftfe.d" -MT"Sources/ftfe.d"  -o "Sources/ftfe.o" ../Sources/ftfe.cpp
+'Finished building: ../Sources/ftfe.cpp'
+' '
+'Building file: ../Sources/hardware.cpp'
+'Invoking: ARM C++ Compiler'
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -fno-rtti -Wall -Wextra -DDEBUG_BUILD -I"C:/Users/jaeha/workspace.kds/Ruby broken/Sources" -I"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Headers" -fno-exceptions -std=gnu++11 -c -fmessage-length=0 -MT"Sources/hardware.o" -MMD -MP -MF"Sources/hardware.d" -MT"Sources/hardware.d"  -o "Sources/hardware.o" ../Sources/hardware.cpp
+'Finished building: ../Sources/hardware.cpp'
+' '
+'Building file: ../Sources/i2c.cpp'
+'Invoking: ARM C++ Compiler'
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -fno-rtti -Wall -Wextra -DDEBUG_BUILD -I"C:/Users/jaeha/workspace.kds/Ruby broken/Sources" -I"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Headers" -fno-exceptions -std=gnu++11 -c -fmessage-length=0 -MT"Sources/i2c.o" -MMD -MP -MF"Sources/i2c.d" -MT"Sources/i2c.d"  -o "Sources/i2c.o" ../Sources/i2c.cpp
+'Finished building: ../Sources/i2c.cpp'
+' '
+'Building file: ../Sources/spi.cpp'
+'Invoking: ARM C++ Compiler'
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -fno-rtti -Wall -Wextra -DDEBUG_BUILD -I"C:/Users/jaeha/workspace.kds/Ruby broken/Sources" -I"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Headers" -fno-exceptions -std=gnu++11 -c -fmessage-length=0 -MT"Sources/spi.o" -MMD -MP -MF"Sources/spi.d" -MT"Sources/spi.d"  -o "Sources/spi.o" ../Sources/spi.cpp
+'Finished building: ../Sources/spi.cpp'
+' '
+'Building file: ../Sources/usbdmError.cpp'
+'Invoking: ARM C++ Compiler'
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -fno-rtti -Wall -Wextra -DDEBUG_BUILD -I"C:/Users/jaeha/workspace.kds/Ruby broken/Sources" -I"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Headers" -fno-exceptions -std=gnu++11 -c -fmessage-length=0 -MT"Sources/usbdmError.o" -MMD -MP -MF"Sources/usbdmError.d" -MT"Sources/usbdmError.d"  -o "Sources/usbdmError.o" ../Sources/usbdmError.cpp
+'Finished building: ../Sources/usbdmError.cpp'
+' '
+'Building target: Ruby broken.elf'
+'Invoking: ARM C++ Linker'
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -Wl,--gc-sections -L"C:/Users/jaeha/workspace.kds/Ruby broken/Project_Settings/Linker_Files" --specs=nano.specs -u _printf_float -T "Linker-rom.ld" -Xlinker -Map="Ruby broken.map"  -o "Ruby broken.elf"  ./Startup_Code/console.o ./Startup_Code/mcg.o ./Startup_Code/newlib_stubs.o ./Startup_Code/rtc.o ./Startup_Code/security.o ./Startup_Code/startup_ARMLtdGCC.o ./Startup_Code/system-gcc.o ./Startup_Code/system.o ./Startup_Code/vectors.o  ./Sources/Ruby.o ./Sources/delay.o ./Sources/ftfe.o ./Sources/hardware.o ./Sources/i2c.o ./Sources/spi.o ./Sources/usbdmError.o   
+'Finished building target: Ruby broken.elf'
+' '
+'Invoking: ARM Sizer'
+arm-none-eabi-size "Ruby broken.elf" --format=sysv --radix=10   >"Ruby broken.size"
+'Finished building: Ruby broken.size'
+' '
+'Invoking: ARM Symbol Table'
+arm-none-eabi-nm "Ruby broken.elf" --demangle --defined-only --extern-only --numeric-sort   >"Ruby broken.sym"
+'Finished building: Ruby broken.sym'
+' '
+
+20:11:37 Build Finished (took 23s.891ms)
+

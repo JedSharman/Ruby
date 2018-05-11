@@ -1,0 +1,28 @@
+<BODY>
+<!-- create FreeMASTER ActiveX object "fmstr" -->
+<OBJECT id="fmstr" height="0" width="0" classid="clsid:48A185F1-FFDB-11D3-80E3-00C04F176153">
+</OBJECT>
+<script language="VBScript">
+Sub window_onload()
+Window.SetTimeOut "PageTimer", 100
+End Sub
+Function PageTimer()
+'perfroms Read command from variable "var16" defined in project for FreeMASTER tool
+'"!" - immediate performs the command
+bSucc = fmstr.ReadVariable("!pid2.currentOutput", vValue, tValue, bsRetMsg)
+If bSucc then
+varRefresh.InnerText = tValue
+else
+varRefresh.InnerText = bsRetMsg
+End If
+Window.SetTimeOut "PageTimer", 100
+End Function
+Function ButtonRead()
+'writes 0x10 value into "pid2.currentOutput" defined project for FreeMASTER tool
+bSucc = fmstr.WriteVariable("var16inc", 10, bsRetMsg)
+End Function
+</script>
+<h1>ActiveX example application</h1>
+periodic variable read: <span id = "varRefresh"> N/A </span><br />
+<input type="button" value="RunScript" onclick="ButtonRead()">
+</BODY>

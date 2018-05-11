@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;Ruby/Sources/Server&apos; to &apos;Server.h&apos;" description="Rename resource &apos;Server&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Sources/Server" name="Server.h" stamp="1524028473270" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;Ruby/Sources/Server.h&apos; to &apos;server.h&apos;" description="Rename resource &apos;Server.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Sources/Server.h" name="server.h" stamp="1524028514089" updateReferences="true"/>
+</session>

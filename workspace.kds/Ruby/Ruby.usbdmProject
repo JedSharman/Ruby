@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Ruby.usbdmProject -->
+<!-- 
+   Settings
+-->
+
+<section name="USBDM">
+   <item key="$$DeviceInfo_Device_Variant"                 value="MK22FN1M0VLH12" />
+   <item key="$$DeviceInfo_SubFamily"                      value="MK22FN1M0AM12" />
+   <item key="$$Hardware_Source_Filename"                  value="MK22FA12.usbdmHardware" />
+   <item key="$signal$ADC0_DM0_descriptionSetting"         value="N/C" />
+   <item key="$signal$ADC0_DP0_descriptionSetting"         value="N/C" />
+   <item key="$signal$ADC1_DM0_descriptionSetting"         value="N/C" />
+   <item key="$signal$ADC1_DP0_descriptionSetting"         value="N/C" />
+   <item key="$signal$DAC0_OUT_descriptionSetting"         value="DAC_OUT" />
+   <item key="$signal$EXTAL32_descriptionSetting"          value="N/C" />
+   <item key="$signal$PTA0_descriptionSetting"             value="SWD_CLK" />
+   <item key="$signal$PTA0_muxSetting"                     value="mux7" />
+   <item key="$signal$PTA12_descriptionSetting"            value="QD1_PHA" />
+   <item key="$signal$PTA12_muxSetting"                    value="mux7" />
+   <item key="$signal$PTA13_descriptionSetting"            value="QD1_PHB" />
+   <item key="$signal$PTA13_muxSetting"                    value="mux7" />
+   <item key="$signal$PTA18_descriptionSetting"            value="EXTAL0" />
+   <item key="$signal$PTA18_muxSetting"                    value="mux0" />
+   <item key="$signal$PTA19_descriptionSetting"            value="XTAL0" />
+   <item key="$signal$PTA19_muxSetting"                    value="mux0" />
+   <item key="$signal$PTA1_descriptionSetting"             value="UART_RX (Alt)" />
+   <item key="$signal$PTA1_muxSetting"                     value="mux2" />
+   <item key="$signal$PTA2_descriptionSetting"             value="UART_TX (Alt)" />
+   <item key="$signal$PTA2_muxSetting"                     value="mux2" />
+   <item key="$signal$PTA3_descriptionSetting"             value="SWD_DIO" />
+   <item key="$signal$PTA3_muxSetting"                     value="mux7" />
+   <item key="$signal$PTA5_descriptionSetting"             value="GPIOA_5 = QD1_Index" />
+   <item key="$signal$PTA5_muxSetting"                     value="mux1" />
+   <item key="$signal$PTB0_descriptionSetting"             value="I2C_SCL" />
+   <item key="$signal$PTB0_muxSetting"                     value="mux2" />
+   <item key="$signal$PTB16_descriptionSetting"            value="UART_RX" />
+   <item key="$signal$PTB17_descriptionSetting"            value="UART_TX" />
+   <item key="$signal$PTB18_descriptionSetting"            value="QD2_PHA" />
+   <item key="$signal$PTB18_muxSetting"                    value="mux6" />
+   <item key="$signal$PTB19_descriptionSetting"            value="QD2_PHB" />
+   <item key="$signal$PTB19_muxSetting"                    value="mux6" />
+   <item key="$signal$PTB1_descriptionSetting"             value="I2C_SDA" />
+   <item key="$signal$PTB1_muxSetting"                     value="mux2" />
+   <item key="$signal$PTB2_descriptionSetting"             value="Fault3 = ErrorFlag1" />
+   <item key="$signal$PTB2_muxSetting"                     value="mux6" />
+   <item key="$signal$PTB3_descriptionSetting"             value="GPIOB_3 = QD2_Index" />
+   <item key="$signal$PTB3_muxSetting"                     value="mux1" />
+   <item key="$signal$PTC0_descriptionSetting"             value="GPIOC_0 = Hall sensor2_A" />
+   <item key="$signal$PTC0_muxSetting"                     value="mux1" />
+   <item key="$signal$PTC10_descriptionSetting"            value="-" />
+   <item key="$signal$PTC11_descriptionSetting"            value="TP" />
+   <item key="$signal$PTC11_muxSetting"                    value="mux1" />
+   <item key="$signal$PTC1_descriptionSetting"             value="GPIOC_1 = Hall sensor2_B" />
+   <item key="$signal$PTC1_muxSetting"                     value="mux1" />
+   <item key="$signal$PTC2_descriptionSetting"             value="FTM0_CH1 = Grabber2" />
+   <item key="$signal$PTC2_muxSetting"                     value="mux4" />
+   <item key="$signal$PTC3_descriptionSetting"             value="SPI-PCS" />
+   <item key="$signal$PTC3_muxSetting"                     value="mux2" />
+   <item key="$signal$PTC4_descriptionSetting"             value="FTM0_CH3 = Motor1_B" />
+   <item key="$signal$PTC4_muxSetting"                     value="mux4" />
+   <item key="$signal$PTC5_descriptionSetting"             value="FTM0_CH2 = Motor1_A" />
+   <item key="$signal$PTC5_muxSetting"                     value="mux7" />
+   <item key="$signal$PTC6_descriptionSetting"             value="SPI-SOUT" />
+   <item key="$signal$PTC6_muxSetting"                     value="mux2" />
+   <item key="$signal$PTC7_descriptionSetting"             value="SPI-SIN" />
+   <item key="$signal$PTC7_muxSetting"                     value="mux2" />
+   <item key="$signal$PTC8_descriptionSetting"             value="VmTap" />
+   <item key="$signal$PTC8_muxSetting"                     value="mux0" />
+   <item key="$signal$PTC9_descriptionSetting"             value="TP" />
+   <item key="$signal$PTC9_muxSetting"                     value="mux1" />
+   <item key="$signal$PTD0_descriptionSetting"             value="QD1_PHA (IC)" />
+   <item key="$signal$PTD0_muxSetting"                     value="mux4" />
+   <item key="$signal$PTD1_descriptionSetting"             value="SPI-SCK" />
+   <item key="$signal$PTD1_muxSetting"                     value="mux2" />
+   <item key="$signal$PTD2_descriptionSetting"             value="QD2_PHA (IC)" />
+   <item key="$signal$PTD2_muxSetting"                     value="mux4" />
+   <item key="$signal$PTD4_descriptionSetting"             value="FTM0_CH4 = Motor2_B" />
+   <item key="$signal$PTD4_muxSetting"                     value="mux4" />
+   <item key="$signal$PTD5_descriptionSetting"             value="FTM0_CH5 = Motor2_A" />
+   <item key="$signal$PTD5_muxSetting"                     value="mux4" />
+   <item key="$signal$PTD6_descriptionSetting"             value="Fault0 = ErrorFlag2" />
+   <item key="$signal$PTD6_muxSetting"                     value="mux6" />
+   <item key="$signal$PTD7_descriptionSetting"             value="FTM0_CH7 = Grabber1" />
+   <item key="$signal$PTD7_muxSetting"                     value="mux4" />
+   <item key="$signal$PTE0_descriptionSetting"             value="GPIOE_0 = Hall sensor1_A" />
+   <item key="$signal$PTE0_muxSetting"                     value="mux1" />
+   <item key="$signal$PTE1_descriptionSetting"             value="GPIOE_1 = Hall sensor1_B" />
+   <item key="$signal$PTE1_muxSetting"                     value="mux1" />
+   <item key="$signal$RESET_b_descriptionSetting"          value="Reset switch, SWD" />
+   <item key="$signal$USB0_DM_descriptionSetting"          value="USB_DM" />
+   <item key="$signal$USB0_DP_descriptionSetting"          value="USB_DP" />
+   <item key="$signal$VBAT_descriptionSetting"             value="N/C" />
+   <item key="$signal$VDD1_descriptionSetting"             value="3V" />
+   <item key="$signal$VDD2_descriptionSetting"             value="3V" />
+   <item key="$signal$VDD3_descriptionSetting"             value="3V" />
+   <item key="$signal$VDDA_descriptionSetting"             value="3V" />
+   <item key="$signal$VOUT33_descriptionSetting"           value="3V" />
+   <item key="$signal$VREFH_descriptionSetting"            value="3V" />
+   <item key="$signal$VREFL_descriptionSetting"            value="Gnd" />
+   <item key="$signal$VREF_OUT_descriptionSetting"         value="N/C" />
+   <item key="$signal$VREGIN_descriptionSetting"           value="5V" />
+   <item key="$signal$VSS1_descriptionSetting"             value="Gnd" />
+   <item key="$signal$VSS2_descriptionSetting"             value="Gnd" />
+   <item key="$signal$VSS3_descriptionSetting"             value="Gnd" />
+   <item key="$signal$VSSA_descriptionSetting"             value="Gnd" />
+   <item key="$signal$XTAL32_descriptionSetting"           value="N/C" />
+   <item key="/ADC0/adc_cfg1_adiclk"                       value="1" />
+   <item key="/ADC0/adc_cfg1_adiv"                         value="2" />
+   <item key="/ADC0/irqLevel"                              value="0" />
+   <item key="/ADC1/adc_cfg1_adiclk"                       value="1" />
+   <item key="/ADC1/adc_cfg1_adiv"                         value="2" />
+   <item key="/ADC1/irqLevel"                              value="0" />
+   <item key="/CMP0/irqLevel"                              value="0" />
+   <item key="/CMP1/irqLevel"                              value="0" />
+   <item key="/CMP2/irqLevel"                              value="0" />
+   <item key="/DAC0/irqLevel"                              value="0" />
+   <item key="/FTFE/peripheral_file"                       value="ftfe_128k_flexrom" />
+   <item key="/FTM0/irqLevel"                              value="0" />
+   <item key="/FTM1/irqLevel"                              value="0" />
+   <item key="/FTM2/irqLevel"                              value="0" />
+   <item key="/FTM3/irqLevel"                              value="0" />
+   <item key="/GPIOA/irqLevel"                             value="0" />
+   <item key="/GPIOB/irqLevel"                             value="0" />
+   <item key="/GPIOC/irqLevel"                             value="0" />
+   <item key="/GPIOD/irqLevel"                             value="0" />
+   <item key="/GPIOE/irqLevel"                             value="0" />
+   <item key="/I2C0/irqLevel"                              value="0" />
+   <item key="/I2C1/irqLevel"                              value="0" />
+   <item key="/I2C2/irqLevel"                              value="0" />
+   <item key="/LLWU/irqLevel"                              value="0" />
+   <item key="/LPTMR0/irqLevel"                            value="0" />
+   <item key="/LPTMR0/lptmr_cmr"                           value="0" />
+   <item key="/MCG/ClockConfig[0]"                         value="ClockConfig_PEE_60MHz" />
+   <item key="/MCG/ClockConfig[1]"                         value="ClockConfig_BLPE_4MHz" />
+   <item key="/MCG/ClockConfig[2]"                         value="ClockConfig_PEE_120MHz" />
+   <item key="/MCG/clock_mode[0]"                          value="ClockMode_PEE" />
+   <item key="/MCG/clock_mode[1]"                          value="ClockMode_BLPE" />
+   <item key="/MCG/clock_mode[2]"                          value="ClockMode_PEE" />
+   <item key="/MCG/irqLevel"                               value="0" />
+   <item key="/OSC0/osc_cr_scp"                            value="4" />
+   <item key="/PDB0/irqLevel"                              value="0" />
+   <item key="/PIT/irqHandlers"                            value="$ClassMethod" />
+   <item key="/PIT/irqLevel"                               value="4" />
+   <item key="/PIT/pit_ldval"                              value="10000" />
+   <item key="/RTC/irqLevel"                               value="0" />
+   <item key="/RTC/rtc_cr_osce"                            value="false" />
+   <item key="/SIM/sim_clkdiv2_usb"                        value="9" />
+   <item key="/SIM/sim_sopt2_pllfllsel[0]"                 value="1" />
+   <item key="/SIM/system_bus_clock[1]"                    value="4000000" />
+   <item key="/SIM/system_core_clock[0]"                   value="60000000" />
+   <item key="/SIM/system_core_clock[1]"                   value="4000000" />
+   <item key="/SIM/system_erclk32k_clock"                  value="0" />
+   <item key="/SIM/system_flash_clock[0]"                  value="20000000" />
+   <item key="/SIM/system_flash_clock[1]"                  value="4000000" />
+   <item key="/SIM/system_flexbus_clock[0]"                value="30000000" />
+   <item key="/SIM/system_flexbus_clock[1]"                value="4000000" />
+   <item key="/SIM/system_flexbus_clock[2]"                value="40000000" />
+   <item key="/SMC/smc_pmprot_alls"                        value="false" />
+   <item key="/SMC/smc_pmprot_avlls"                       value="false" />
+   <item key="/SMC/smc_pmprot_avlp"                        value="false" />
+   <item key="/SPI0/irqLevel"                              value="0" />
+   <item key="/UART0/irqLevel"                             value="0" />
+   <item key="/UART1/irqLevel"                             value="0" />
+   <item key="/UART2/irqLevel"                             value="0" />
+   <item key="/USB0/irqLevel"                              value="0" />
+</section>

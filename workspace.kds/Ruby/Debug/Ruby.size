@@ -1,0 +1,21 @@
+Ruby.elf  :
+section              size        addr
+.interrupts          1040           0
+.text               31844        1040
+.ARM.exidx              8       32884
+.data                 236   536805376
+.bss                 3568   536805616
+.bitband          2097152   570425344
+.ARM.attributes        48           0
+.comment              112           0
+.debug_info        158311           0
+.debug_abbrev       14577           0
+.debug_aranges       3664           0
+.debug_ranges        3464           0
+.debug_macro        78828           0
+.debug_line         24463           0
+.debug_str         480705           0
+.debug_frame        16392           0
+Total             2914412
+
+
