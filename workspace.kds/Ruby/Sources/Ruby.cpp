@@ -780,8 +780,10 @@ int main() {
 int gap = 1000;
    while(true)
    {
+	   console.write("Closed: ").writeln(Gripper1::close());
 	   console.write("Closed: ").writeln(Gripper2::close());
 	   waitMS(gap);
+	   console.write("Open: ").writeln(Gripper1::open());
 	   console.write("Open: ").writeln(Gripper2::open());
 	   waitMS(gap);
    }

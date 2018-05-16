@@ -1,6 +1,35 @@
-12:52:54 **** Incremental Build of configuration Debug for project Ruby ****
+17:30:21 **** Incremental Build of configuration Debug for project Ruby ****
 "C:\\Program Files (x86)\\pgo\\USBDM 4.12.1.210\\usbdm-make" all 
-usbdm-make: Nothing to be done for `all'.
+'Building file: ../Sources/Ruby.cpp'
+'Invoking: ARM C++ Compiler'
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -ffunction-sections -fdata-sections -fno-rtti -Wall -Wextra -DDEBUG_BUILD -I"C:/Users/jaeha/Documents/Swinburne/2018 Semester 1/Final Year/Control/Repo/Ruby/workspace.kds/Ruby/Sources" -I"C:/Users/jaeha/Documents/Swinburne/2018 Semester 1/Final Year/Control/Repo/Ruby/workspace.kds/Ruby/Project_Headers" -fno-exceptions -std=gnu++11 -c -fmessage-length=0 -MT"Sources/Ruby.o" -MMD -MP -MF"Sources/Ruby.d" -MT"Sources/Ruby.d"  -o "Sources/Ruby.o" ../Sources/Ruby.cpp
+In file included from C:/Users/jaeha/Documents/Swinburne/2018 Semester 1/Final Year/Control/Repo/Ruby/workspace.kds/Ruby/Project_Headers/uart.h:23:0,
+                 from C:/Users/jaeha/Documents/Swinburne/2018 Semester 1/Final Year/Control/Repo/Ruby/workspace.kds/Ruby/Project_Headers/console.h:9,
+                 from C:/Users/jaeha/Documents/Swinburne/2018 Semester 1/Final Year/Control/Repo/Ruby/workspace.kds/Ruby/Project_Headers/Hardware.h:240,
+                 from ../Sources/Ruby.cpp:26:
+C:/Users/jaeha/Documents/Swinburne/2018 Semester 1/Final Year/Control/Repo/Ruby/workspace.kds/Ruby/Project_Headers/formatted_io.h: In member function 'int USBDM::FormattedIO::readCharNoBlock()':
+C:/Users/jaeha/Documents/Swinburne/2018 Semester 1/Final Year/Control/Repo/Ruby/workspace.kds/Ruby/Project_Headers/formatted_io.h:257:14: warning: converting to non-pointer type 'int' from NULL [-Wconversion-null]
+           ch = NULL;
+              ^
+../Sources/Ruby.cpp: In function 'bool readFromPC()':
+../Sources/Ruby.cpp:381:11: warning: NULL used in arithmetic [-Wpointer-arith]
+  if(ch == NULL)
+           ^
+'Finished building: ../Sources/Ruby.cpp'
+' '
+'Building target: Ruby.elf'
+'Invoking: ARM C++ Linker'
+arm-none-eabi-g++ -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -g3 -O0 -Wl,--gc-sections -L"C:/Users/jaeha/Documents/Swinburne/2018 Semester 1/Final Year/Control/Repo/Ruby/workspace.kds/Ruby/Project_Settings/Linker_Files" --specs=nano.specs -u _printf_float -T "Linker-rom.ld" -Xlinker -Map="Ruby.map"  -o "Ruby.elf"  ./Startup_Code/console.o ./Startup_Code/mcg.o ./Startup_Code/newlib_stubs.o ./Startup_Code/rtc.o ./Startup_Code/security.o ./Startup_Code/startup_ARMLtdGCC.o ./Startup_Code/system-gcc.o ./Startup_Code/system.o ./Startup_Code/vectors.o  ./Sources/Ruby.o ./Sources/delay.o ./Sources/ftfe.o ./Sources/hardware.o ./Sources/i2c.o ./Sources/spi.o ./Sources/usbdmError.o   
+'Finished building target: Ruby.elf'
+' '
+'Invoking: ARM Sizer'
+arm-none-eabi-size "Ruby.elf" --format=sysv --radix=10   >"Ruby.size"
+'Finished building: Ruby.size'
+' '
+'Invoking: ARM Symbol Table'
+arm-none-eabi-nm "Ruby.elf" --demangle --defined-only --extern-only --numeric-sort   >"Ruby.sym"
+'Finished building: Ruby.sym'
+' '
 
-12:52:55 Build Finished (took 1s.60ms)
+17:30:23 Build Finished (took 2s.463ms)
 

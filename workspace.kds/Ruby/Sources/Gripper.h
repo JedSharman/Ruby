@@ -28,7 +28,7 @@ class Gripper {
 
 private:
    /** Duty cycle for solenoid on (percent) */
-   static constexpr int SOLENOID_PWM_VALUE     = 99;
+   static constexpr int SOLENOID_PWM_VALUE     = 100;
    /** Solenoid movement delay - closing (ms) */
    static constexpr int SOLENOID_OPERATE_DELAY = 100;
    /** Solenoid movement delay - Opening (ms) */
@@ -82,13 +82,17 @@ public:
     */
    static bool close() {
       // Power solenoid
+
+	  //Initial 5V
+	  Driver::configure(USBDM::FtmChMode_Disabled, USBDM::FtmChannelAction_None);//Has to be turned off to allow the 5V pull up to pull to 5V, any less than 5V fails to close claw
+
+	  USBDM::waitMS(SOLENOID_OPERATE_DELAY);
+
+	  //PWM
+	  Driver::configure(USBDM::FtmChMode_PwmHighTruePulses, USBDM::FtmChannelAction_None);
       Driver::setDutyCycle(SOLENOID_PWM_VALUE);
-      // Wait for confirmed movement
-      if (USBDM::waitMS(SOLENOID_OPERATE_DELAY, CloseSensor::read)) {
-         return true;
-      }
-      Driver::setDutyCycle(SOLENOID_PWM_VALUE);
-      return false;
+
+      return true;
    }
 
    /**
