@@ -1,21 +1,21 @@
 Ruby.elf  :
 section              size        addr
 .interrupts          1040           0
-.text               32100        1040
-.ARM.exidx              8       33140
+.text               31708        1040
+.ARM.exidx              8       32748
 .data                 236   536805376
 .bss                 3568   536805616
 .bitband          2097152   570425344
 .ARM.attributes        48           0
 .comment              112           0
-.debug_info        158036           0
+.debug_info        157972           0
 .debug_abbrev       14548           0
-.debug_aranges       3632           0
-.debug_ranges        3432           0
+.debug_aranges       3600           0
+.debug_ranges        3400           0
 .debug_macro        78828           0
-.debug_line         24449           0
+.debug_line         24351           0
 .debug_str         480735           0
-.debug_frame        16288           0
-Total             2914212
+.debug_frame        16184           0
+Total             2913490
 
 

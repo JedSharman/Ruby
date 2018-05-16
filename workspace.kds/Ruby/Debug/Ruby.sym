@@ -251,248 +251,243 @@
 00002f20 T checkMotorSupply()
 00002fdc T initialise()
 00003020 T main
-000030fc W USBDM::AdcBase_T<USBDM::Adc1Info>::calibrate()
-00003210 W std::vector<int, std::allocator<int> >::vector()
-00003210 W std::vector<int, std::allocator<int> >::vector()
-0000322c W std::vector<char, std::allocator<char> >::vector()
-0000322c W std::vector<char, std::allocator<char> >::vector()
-00003248 W Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::setSpeed(float)
-00003300 W Motor<USBDM::Ftm0Info, (unsigned char)4, (unsigned char)5, 0, USBDM::Ftm2Info, USBDM::GpioB<3, (USBDM::Polarity)1> >::setSpeed(float)
-000033b8 W Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::getPosition()
-000033c8 W Motor<USBDM::Ftm0Info, (unsigned char)4, (unsigned char)5, 0, USBDM::Ftm2Info, USBDM::GpioB<3, (USBDM::Polarity)1> >::getPosition()
-000033d8 W Gripper<USBDM::Ftm0Info, 7, USBDM::GpioE<0, (USBDM::Polarity)1>, USBDM::GpioE<1, (USBDM::Polarity)1> >::open()
-000033f4 W Gripper<USBDM::Ftm0Info, 1, USBDM::GpioC<0, (USBDM::Polarity)1>, USBDM::GpioC<1, (USBDM::Polarity)1> >::open()
-00003410 W Gripper<USBDM::Ftm0Info, 7, USBDM::GpioE<0, (USBDM::Polarity)1>, USBDM::GpioE<1, (USBDM::Polarity)1> >::calibrate()
-00003448 W Gripper<USBDM::Ftm0Info, 1, USBDM::GpioC<0, (USBDM::Polarity)1>, USBDM::GpioC<1, (USBDM::Polarity)1> >::calibrate()
-00003480 W Gripper<USBDM::Ftm0Info, 7, USBDM::GpioE<0, (USBDM::Polarity)1>, USBDM::GpioE<1, (USBDM::Polarity)1> >::initialise()
-000034d4 W Gripper<USBDM::Ftm0Info, 1, USBDM::GpioC<0, (USBDM::Polarity)1>, USBDM::GpioC<1, (USBDM::Polarity)1> >::initialise()
-00003528 W Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::initialise()
-0000359c W Motor<USBDM::Ftm0Info, (unsigned char)4, (unsigned char)5, 0, USBDM::Ftm2Info, USBDM::GpioB<3, (USBDM::Polarity)1> >::initialise()
-00003610 W USBDM::Dac_T<USBDM::Dac0Info>::enable(unsigned long, unsigned long, unsigned long)
-00003668 W Gripper<USBDM::Ftm0Info, 7, USBDM::GpioE<0, (USBDM::Polarity)1>, USBDM::GpioE<1, (USBDM::Polarity)1> >::close()
-00003690 W Gripper<USBDM::Ftm0Info, 1, USBDM::GpioC<0, (USBDM::Polarity)1>, USBDM::GpioC<1, (USBDM::Polarity)1> >::close()
-000036b8 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 9, (USBDM::Polarity)1>::setOutput(unsigned long)
-000036e0 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 11, (USBDM::Polarity)1>::setOutput(unsigned long)
-00003708 W PID::PID()
-00003708 W PID::PID()
-00003720 W PID_T<&Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::getPositionAsFloat, &Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::setSpeed>::PID_T(double, double, double, double, double, double)
-00003720 W PID_T<&Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::getPositionAsFloat, &Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::setSpeed>::PID_T(double, double, double, double, double, double)
-000037a0 W PID_T<&(motor2Position()), &Motor<USBDM::Ftm0Info, (unsigned char)4, (unsigned char)5, 0, USBDM::Ftm2Info, USBDM::GpioB<3, (USBDM::Polarity)1> >::setSpeed>::PID_T(double, double, double, double, double, double)
-000037a0 W PID_T<&(motor2Position()), &Motor<USBDM::Ftm0Info, (unsigned char)4, (unsigned char)5, 0, USBDM::Ftm2Info, USBDM::GpioB<3, (USBDM::Polarity)1> >::setSpeed>::PID_T(double, double, double, double, double, double)
-00003820 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 9, (USBDM::Polarity)1>::clear()
-00003838 W std::vector<int, std::allocator<int> >::~vector()
-00003838 W std::vector<int, std::allocator<int> >::~vector()
-00003870 W USBDM::AdcBase_T<USBDM::Adc1Info>::readAnalogue(int)
-000038b4 W USBDM::AdcBase_T<USBDM::Adc1Info>::enable()
-000038e4 W std::_Vector_base<int, std::allocator<int> >::_Vector_impl::~_Vector_impl()
-000038e4 W std::_Vector_base<int, std::allocator<int> >::_Vector_impl::~_Vector_impl()
-000038fc W std::_Vector_base<int, std::allocator<int> >::_Vector_base()
-000038fc W std::_Vector_base<int, std::allocator<int> >::_Vector_base()
-00003918 W std::_Vector_base<int, std::allocator<int> >::~_Vector_base()
-00003918 W std::_Vector_base<int, std::allocator<int> >::~_Vector_base()
-00003950 W std::_Vector_base<char, std::allocator<char> >::_Vector_impl::~_Vector_impl()
-00003950 W std::_Vector_base<char, std::allocator<char> >::_Vector_impl::~_Vector_impl()
-00003968 W std::_Vector_base<char, std::allocator<char> >::_Vector_base()
-00003968 W std::_Vector_base<char, std::allocator<char> >::_Vector_base()
-00003984 W std::_Vector_base<char, std::allocator<char> >::~_Vector_base()
-00003984 W std::_Vector_base<char, std::allocator<char> >::~_Vector_base()
-000039b8 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 2>::setDutyCycle(float)
-000039d4 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 3>::setDutyCycle(float)
-000039f0 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 4>::setDutyCycle(float)
-00003a0c W USBDM::FtmChannel_T<USBDM::Ftm0Info, 5>::setDutyCycle(float)
-00003a28 W USBDM::QuadEncoder_T<USBDM::Ftm1Info>::getPosition()
-00003a44 W USBDM::QuadEncoder_T<USBDM::Ftm2Info>::getPosition()
-00003a60 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 7>::setDutyCycle(int)
-00003a78 W USBDM::GpioBase_T<8192ul, 1074057216ul, (IRQn_Type)63, 1074786560ul, 0, (USBDM::Polarity)1>::read()
-00003a88 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 1>::setDutyCycle(int)
-00003aa0 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 0, (USBDM::Polarity)1>::read()
-00003ab0 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 7>::setPCR(unsigned long)
-00003ad4 W USBDM::FtmBase_T<USBDM::Ftm0Info>::isEnabled()
-00003b08 W USBDM::FtmBase_T<USBDM::Ftm0Info>::configure(USBDM::FtmMode, USBDM::FtmClockSource, USBDM::FtmPrescale)
-00003b3c W USBDM::FtmBase_T<USBDM::Ftm0Info>::setPeriod(float)
-00003c28 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 7>::configure(USBDM::FtmChMode, USBDM::FtmChannelAction)
-00003c70 W USBDM::GpioBase_T<8192ul, 1074057216ul, (IRQn_Type)63, 1074786560ul, 0, (USBDM::Polarity)1>::setInput(unsigned long)
-00003c94 W USBDM::GpioBase_T<8192ul, 1074057216ul, (IRQn_Type)63, 1074786560ul, 1, (USBDM::Polarity)1>::setInput(unsigned long)
-00003cb8 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 1>::setPCR(unsigned long)
-00003cdc W USBDM::FtmChannel_T<USBDM::Ftm0Info, 1>::configure(USBDM::FtmChMode, USBDM::FtmChannelAction)
-00003d24 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 0, (USBDM::Polarity)1>::setInput(unsigned long)
-00003d48 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 1, (USBDM::Polarity)1>::setInput(unsigned long)
-00003d6c W USBDM::FtmChannel_T<USBDM::Ftm0Info, 2>::configure(USBDM::FtmChMode, USBDM::FtmChannelAction)
-00003db4 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 3>::configure(USBDM::FtmChMode, USBDM::FtmChannelAction)
-00003dfc W USBDM::GpioBase_T<512ul, 1074040832ul, (IRQn_Type)59, 1074786304ul, 5, (USBDM::Polarity)1>::setInput(unsigned long)
-00003e20 W USBDM::QuadEncoder_T<USBDM::Ftm1Info>::configure(USBDM::FtmPrescale)
-00003e6c W USBDM::QuadEncoder_T<USBDM::Ftm1Info>::enableFilter(int)
-00003ec4 W USBDM::QuadEncoder_T<USBDM::Ftm1Info>::resetPosition()
-00003edc W USBDM::FtmBase_T<USBDM::Ftm1Info>::setTimerOverflowCallback(void (*)())
-00003f0c W Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::toiHandler()
-00003f28 W USBDM::FtmBase_T<USBDM::Ftm1Info>::enableTimerOverflowInterrupts(bool)
-00003f60 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 4>::configure(USBDM::FtmChMode, USBDM::FtmChannelAction)
-00003fa8 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 5>::configure(USBDM::FtmChMode, USBDM::FtmChannelAction)
-00003ff0 W USBDM::GpioBase_T<1024ul, 1074044928ul, (IRQn_Type)60, 1074786368ul, 3, (USBDM::Polarity)1>::setInput(unsigned long)
-00004014 W USBDM::QuadEncoder_T<USBDM::Ftm2Info>::configure(USBDM::FtmPrescale)
-00004060 W USBDM::QuadEncoder_T<USBDM::Ftm2Info>::enableFilter(int)
-000040b8 W USBDM::QuadEncoder_T<USBDM::Ftm2Info>::resetPosition()
-000040d0 W USBDM::FtmBase_T<USBDM::Ftm2Info>::setTimerOverflowCallback(void (*)())
-00004100 W Motor<USBDM::Ftm0Info, (unsigned char)4, (unsigned char)5, 0, USBDM::Ftm2Info, USBDM::GpioB<3, (USBDM::Polarity)1> >::toiHandler()
-0000411c W USBDM::FtmBase_T<USBDM::Ftm2Info>::enableTimerOverflowInterrupts(bool)
-00004154 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 9, (USBDM::Polarity)1>::setInactive()
-00004160 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 9, (USBDM::Polarity)1>::setOut()
-00004180 W USBDM::Pcr_T<2048ul, 1074049024ul, (IRQn_Type)61, 9, 323ul>::setPCR(unsigned long)
-000041a0 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 11, (USBDM::Polarity)1>::setInactive()
-000041ac W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 11, (USBDM::Polarity)1>::setOut()
-000041cc W USBDM::Pcr_T<2048ul, 1074049024ul, (IRQn_Type)61, 11, 323ul>::setPCR(unsigned long)
-000041ec W PID_T<&Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::getPositionAsFloat, &Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::setSpeed>::setTunings(double, double, double)
-0000428c W PID_T<&(motor2Position()), &Motor<USBDM::Ftm0Info, (unsigned char)4, (unsigned char)5, 0, USBDM::Ftm2Info, USBDM::GpioB<3, (USBDM::Polarity)1> >::setSpeed>::setTunings(double, double, double)
-0000432c W std::_Vector_base<int, std::allocator<int> >::_M_get_Tp_allocator()
-00004344 W void std::_Destroy<int*, int>(int*, int*, std::allocator<int>&)
-00004360 W std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl()
-00004360 W std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl()
-0000438c W std::allocator<int>::~allocator()
-0000438c W std::allocator<int>::~allocator()
-000043a4 W std::_Vector_base<int, std::allocator<int> >::_M_deallocate(int*, unsigned int)
-000043c8 W std::_Vector_base<char, std::allocator<char> >::_Vector_impl::_Vector_impl()
-000043c8 W std::_Vector_base<char, std::allocator<char> >::_Vector_impl::_Vector_impl()
-000043f4 W std::_Vector_base<char, std::allocator<char> >::_M_deallocate(char*, unsigned int)
-00004418 W USBDM::FtmBase_T<USBDM::Ftm0Info>::setDutyCycle(float, int)
-000044e0 W USBDM::FtmBase_T<USBDM::Ftm0Info>::setDutyCycle(int, int)
-00004554 W USBDM::GpioBase_T<8192ul, 1074057216ul, (IRQn_Type)63, 1074786560ul, 0, (USBDM::Polarity)1>::isHigh()
-00004578 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 0, (USBDM::Polarity)1>::isHigh()
-0000459c W USBDM::Pcr_T<4096ul, 1074053120ul, (IRQn_Type)62, 7, 1091ul>::setPCR(unsigned long)
-000045bc W USBDM::FtmBase_T<USBDM::Ftm0Info>::enable()
-000045dc W USBDM::FtmBase_T<USBDM::Ftm0Info>::setPeriodInTicks(unsigned long)
-00004654 W USBDM::GpioBase_T<8192ul, 1074057216ul, (IRQn_Type)63, 1074786560ul, 0, (USBDM::Polarity)1>::setIn()
-00004670 W USBDM::Pcr_T<8192ul, 1074057216ul, (IRQn_Type)63, 0, 323ul>::setPCR(unsigned long)
-00004690 W USBDM::GpioBase_T<8192ul, 1074057216ul, (IRQn_Type)63, 1074786560ul, 1, (USBDM::Polarity)1>::setIn()
-000046ac W USBDM::Pcr_T<8192ul, 1074057216ul, (IRQn_Type)63, 1, 323ul>::setPCR(unsigned long)
-000046cc W USBDM::Pcr_T<2048ul, 1074049024ul, (IRQn_Type)61, 2, 1091ul>::setPCR(unsigned long)
-000046ec W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 0, (USBDM::Polarity)1>::setIn()
-00004708 W USBDM::Pcr_T<2048ul, 1074049024ul, (IRQn_Type)61, 0, 323ul>::setPCR(unsigned long)
-00004728 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 1, (USBDM::Polarity)1>::setIn()
-00004744 W USBDM::Pcr_T<2048ul, 1074049024ul, (IRQn_Type)61, 1, 323ul>::setPCR(unsigned long)
-00004764 W USBDM::GpioBase_T<512ul, 1074040832ul, (IRQn_Type)59, 1074786304ul, 5, (USBDM::Polarity)1>::setIn()
-00004780 W USBDM::Pcr_T<512ul, 1074040832ul, (IRQn_Type)59, 5, 323ul>::setPCR(unsigned long)
-000047a0 W USBDM::FtmBase_T<USBDM::Ftm1Info>::configure(USBDM::FtmMode, USBDM::FtmClockSource, USBDM::FtmPrescale)
-000047d4 W USBDM::GpioBase_T<1024ul, 1074044928ul, (IRQn_Type)60, 1074786368ul, 3, (USBDM::Polarity)1>::setIn()
-000047f0 W USBDM::Pcr_T<1024ul, 1074044928ul, (IRQn_Type)60, 3, 323ul>::setPCR(unsigned long)
-00004810 W USBDM::FtmBase_T<USBDM::Ftm2Info>::configure(USBDM::FtmMode, USBDM::FtmClockSource, USBDM::FtmPrescale)
-00004844 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 11, (USBDM::Polarity)1>::clear()
-0000485c W std::_Vector_base<char, std::allocator<char> >::_M_get_Tp_allocator()
-00004874 W void std::_Destroy<char*, char>(char*, char*, std::allocator<char>&)
-00004890 W void std::_Destroy<int*>(int*, int*)
-000048a8 W std::allocator<int>::allocator()
-000048a8 W std::allocator<int>::allocator()
-000048c0 W __gnu_cxx::new_allocator<int>::~new_allocator()
-000048c0 W __gnu_cxx::new_allocator<int>::~new_allocator()
-000048d8 W __gnu_cxx::new_allocator<int>::deallocate(int*, unsigned int)
-000048f0 W __gnu_cxx::new_allocator<char>::deallocate(char*, unsigned int)
-00004908 W USBDM::FtmBase_T<USBDM::Ftm0Info>::configureAllPins()
-00004914 W USBDM::FtmBase_T<USBDM::Ftm1Info>::enable()
-00004934 W USBDM::FtmBase_T<USBDM::Ftm2Info>::enable()
-00004954 W void std::_Destroy<char*>(char*, char*)
-0000496c W void std::_Destroy_aux<true>::__destroy<int*>(int*, int*)
-00004980 W __gnu_cxx::new_allocator<int>::new_allocator()
-00004980 W __gnu_cxx::new_allocator<int>::new_allocator()
-00004998 W USBDM::FtmBase_T<USBDM::Ftm1Info>::configureAllPins()
-000049a4 W USBDM::FtmBase_T<USBDM::Ftm2Info>::configureAllPins()
-000049b0 W void std::_Destroy_aux<true>::__destroy<char*>(char*, char*)
-00004aa8 W std::vector<char, std::allocator<char> >::~vector()
-00004aa8 W std::vector<char, std::allocator<char> >::~vector()
-00004b60 T USBDM::waitMS(unsigned long)
-00004c34 T USBDM::waitMS(unsigned long, bool (*)())
-00004d48 T USBDM::getErrorMessage(USBDM::ErrorCode)
-00004d78 T USBDM::checkError()
-00004dc8 T cpp_initialise
-00004dd4 T USBDM::enableNvicInterrupt(IRQn_Type, unsigned long)
-00004e08 T operator delete(void*)
-00004e10 T __aeabi_atexit
-00004e1a W std::allocator<char>::allocator()
-00004e1a W std::allocator<char>::allocator()
-00004e1c W std::allocator<char>::~allocator()
-00004e1c W std::allocator<char>::~allocator()
-00004e20 T round
-00004eb8 T abort
-00004ec8 T __assert_func
-00004f00 T __cxa_atexit
-00004f20 T exit
-00004f48 T fiprintf
-00004f48 T fprintf
-00004f6c T __libc_init_array
-00004fb8 T malloc
-00004fc8 T free
-00004fd8 T memcpy
-00004fea T memset
-00004ffc T _free_r
-00005084 T _malloc_r
-0000512c T _sbrk_r
-0000514c T _raise_r
-0000519c T raise
-000051ac T _kill_r
-000051d0 T _getpid_r
-00005200 T __sfputs_r
-00005224 T _vfiprintf_r
-00005224 T _vfprintf_r
-0000542c T __cvt
-000054ec T __exponent
-00005554 W _printf_float
-00005974 T _printf_common
-00005a58 T _printf_i
-00005c80 T __swbuf_r
-00005d28 T __swsetup_r
-00005f20 T _dtoa_r
-00006a90 T __sflush_r
-00006b98 T _fflush_r
-00006bec T _cleanup_r
-00006c68 T __sfmoreglue
-00006c94 T __sinit
-00006cf4 T __sfp
-00006d68 T _localeconv_r
-00006d70 T __smakebuf_r
-00006e0c T memchr
-00006e2a T _Balloc
-00006e94 T _Bfree
-00006ec2 T __multadd
-00006f36 T __hi0bits
-00006f76 T __lo0bits
-00006fd0 T __i2b
-00006fe2 T __multiply
-00007114 T __pow5mult
-000071b0 T __lshift
-00007256 T __mcmp
-00007290 T __mdiff
-0000734c T __d2b
-000073ec T _calloc_r
-00007408 T __fpclassifyd
-00007450 T __sread
-00007472 T __swrite
-000074aa T __sseek
-000074ce T __sclose
-000074d6 T strlen
-000074e8 T _write_r
-0000750c T _close_r
-0000752c T _fstat_r
-00007550 T _isatty_r
-00007570 T _lseek_r
-00007594 T _read_r
-00007a90 V vtable for USBDM::Uart_brfa_T<USBDM::Uart0Info>
-00007ac0 V vtable for USBDM::Uart_T<USBDM::Uart0Info>
-00007af0 V vtable for USBDM::Uart
-00007b20 V vtable for USBDM::FormattedIO
-00007b48 T USBDM::Mcg::clockInfo
-00007f7c T _global_impure_ptr
-00007fd4 T __sf_fake_stdin
-00007ff4 T __sf_fake_stdout
+000030bc W USBDM::AdcBase_T<USBDM::Adc1Info>::calibrate()
+000031d0 W std::vector<int, std::allocator<int> >::vector()
+000031d0 W std::vector<int, std::allocator<int> >::vector()
+000031ec W std::vector<char, std::allocator<char> >::vector()
+000031ec W std::vector<char, std::allocator<char> >::vector()
+00003208 W Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::setSpeed(float)
+000032c0 W Motor<USBDM::Ftm0Info, (unsigned char)4, (unsigned char)5, 0, USBDM::Ftm2Info, USBDM::GpioB<3, (USBDM::Polarity)1> >::setSpeed(float)
+00003378 W Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::getPosition()
+00003388 W Motor<USBDM::Ftm0Info, (unsigned char)4, (unsigned char)5, 0, USBDM::Ftm2Info, USBDM::GpioB<3, (USBDM::Polarity)1> >::getPosition()
+00003398 W Gripper<USBDM::Ftm0Info, 7, USBDM::GpioE<0, (USBDM::Polarity)1>, USBDM::GpioE<1, (USBDM::Polarity)1> >::open()
+000033b0 W Gripper<USBDM::Ftm0Info, 1, USBDM::GpioC<0, (USBDM::Polarity)1>, USBDM::GpioC<1, (USBDM::Polarity)1> >::open()
+000033c8 W Gripper<USBDM::Ftm0Info, 7, USBDM::GpioE<0, (USBDM::Polarity)1>, USBDM::GpioE<1, (USBDM::Polarity)1> >::calibrate()
+00003400 W Gripper<USBDM::Ftm0Info, 1, USBDM::GpioC<0, (USBDM::Polarity)1>, USBDM::GpioC<1, (USBDM::Polarity)1> >::calibrate()
+00003438 W Gripper<USBDM::Ftm0Info, 7, USBDM::GpioE<0, (USBDM::Polarity)1>, USBDM::GpioE<1, (USBDM::Polarity)1> >::initialise()
+0000348c W Gripper<USBDM::Ftm0Info, 1, USBDM::GpioC<0, (USBDM::Polarity)1>, USBDM::GpioC<1, (USBDM::Polarity)1> >::initialise()
+000034e0 W Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::initialise()
+00003554 W Motor<USBDM::Ftm0Info, (unsigned char)4, (unsigned char)5, 0, USBDM::Ftm2Info, USBDM::GpioB<3, (USBDM::Polarity)1> >::initialise()
+000035c8 W USBDM::Dac_T<USBDM::Dac0Info>::enable(unsigned long, unsigned long, unsigned long)
+00003620 W Gripper<USBDM::Ftm0Info, 7, USBDM::GpioE<0, (USBDM::Polarity)1>, USBDM::GpioE<1, (USBDM::Polarity)1> >::close()
+00003648 W Gripper<USBDM::Ftm0Info, 1, USBDM::GpioC<0, (USBDM::Polarity)1>, USBDM::GpioC<1, (USBDM::Polarity)1> >::close()
+00003670 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 9, (USBDM::Polarity)1>::setOutput(unsigned long)
+00003698 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 11, (USBDM::Polarity)1>::setOutput(unsigned long)
+000036c0 W PID::PID()
+000036c0 W PID::PID()
+000036d8 W PID_T<&Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::getPositionAsFloat, &Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::setSpeed>::PID_T(double, double, double, double, double, double)
+000036d8 W PID_T<&Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::getPositionAsFloat, &Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::setSpeed>::PID_T(double, double, double, double, double, double)
+00003758 W PID_T<&(motor2Position()), &Motor<USBDM::Ftm0Info, (unsigned char)4, (unsigned char)5, 0, USBDM::Ftm2Info, USBDM::GpioB<3, (USBDM::Polarity)1> >::setSpeed>::PID_T(double, double, double, double, double, double)
+00003758 W PID_T<&(motor2Position()), &Motor<USBDM::Ftm0Info, (unsigned char)4, (unsigned char)5, 0, USBDM::Ftm2Info, USBDM::GpioB<3, (USBDM::Polarity)1> >::setSpeed>::PID_T(double, double, double, double, double, double)
+000037d8 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 9, (USBDM::Polarity)1>::clear()
+000037f0 W std::vector<int, std::allocator<int> >::~vector()
+000037f0 W std::vector<int, std::allocator<int> >::~vector()
+00003828 W USBDM::AdcBase_T<USBDM::Adc1Info>::readAnalogue(int)
+0000386c W USBDM::AdcBase_T<USBDM::Adc1Info>::enable()
+0000389c W std::_Vector_base<int, std::allocator<int> >::_Vector_impl::~_Vector_impl()
+0000389c W std::_Vector_base<int, std::allocator<int> >::_Vector_impl::~_Vector_impl()
+000038b4 W std::_Vector_base<int, std::allocator<int> >::_Vector_base()
+000038b4 W std::_Vector_base<int, std::allocator<int> >::_Vector_base()
+000038d0 W std::_Vector_base<int, std::allocator<int> >::~_Vector_base()
+000038d0 W std::_Vector_base<int, std::allocator<int> >::~_Vector_base()
+00003908 W std::_Vector_base<char, std::allocator<char> >::_Vector_impl::~_Vector_impl()
+00003908 W std::_Vector_base<char, std::allocator<char> >::_Vector_impl::~_Vector_impl()
+00003920 W std::_Vector_base<char, std::allocator<char> >::_Vector_base()
+00003920 W std::_Vector_base<char, std::allocator<char> >::_Vector_base()
+0000393c W std::_Vector_base<char, std::allocator<char> >::~_Vector_base()
+0000393c W std::_Vector_base<char, std::allocator<char> >::~_Vector_base()
+00003970 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 2>::setDutyCycle(float)
+0000398c W USBDM::FtmChannel_T<USBDM::Ftm0Info, 3>::setDutyCycle(float)
+000039a8 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 4>::setDutyCycle(float)
+000039c4 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 5>::setDutyCycle(float)
+000039e0 W USBDM::QuadEncoder_T<USBDM::Ftm1Info>::getPosition()
+000039fc W USBDM::QuadEncoder_T<USBDM::Ftm2Info>::getPosition()
+00003a18 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 7>::setDutyCycle(int)
+00003a30 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 1>::setDutyCycle(int)
+00003a48 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 7>::setPCR(unsigned long)
+00003a6c W USBDM::FtmBase_T<USBDM::Ftm0Info>::isEnabled()
+00003aa0 W USBDM::FtmBase_T<USBDM::Ftm0Info>::configure(USBDM::FtmMode, USBDM::FtmClockSource, USBDM::FtmPrescale)
+00003ad4 W USBDM::FtmBase_T<USBDM::Ftm0Info>::setPeriod(float)
+00003bc0 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 7>::configure(USBDM::FtmChMode, USBDM::FtmChannelAction)
+00003c08 W USBDM::GpioBase_T<8192ul, 1074057216ul, (IRQn_Type)63, 1074786560ul, 0, (USBDM::Polarity)1>::setInput(unsigned long)
+00003c2c W USBDM::GpioBase_T<8192ul, 1074057216ul, (IRQn_Type)63, 1074786560ul, 1, (USBDM::Polarity)1>::setInput(unsigned long)
+00003c50 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 1>::setPCR(unsigned long)
+00003c74 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 1>::configure(USBDM::FtmChMode, USBDM::FtmChannelAction)
+00003cbc W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 0, (USBDM::Polarity)1>::setInput(unsigned long)
+00003ce0 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 1, (USBDM::Polarity)1>::setInput(unsigned long)
+00003d04 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 2>::configure(USBDM::FtmChMode, USBDM::FtmChannelAction)
+00003d4c W USBDM::FtmChannel_T<USBDM::Ftm0Info, 3>::configure(USBDM::FtmChMode, USBDM::FtmChannelAction)
+00003d94 W USBDM::GpioBase_T<512ul, 1074040832ul, (IRQn_Type)59, 1074786304ul, 5, (USBDM::Polarity)1>::setInput(unsigned long)
+00003db8 W USBDM::QuadEncoder_T<USBDM::Ftm1Info>::configure(USBDM::FtmPrescale)
+00003e04 W USBDM::QuadEncoder_T<USBDM::Ftm1Info>::enableFilter(int)
+00003e5c W USBDM::QuadEncoder_T<USBDM::Ftm1Info>::resetPosition()
+00003e74 W USBDM::FtmBase_T<USBDM::Ftm1Info>::setTimerOverflowCallback(void (*)())
+00003ea4 W Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::toiHandler()
+00003ec0 W USBDM::FtmBase_T<USBDM::Ftm1Info>::enableTimerOverflowInterrupts(bool)
+00003ef8 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 4>::configure(USBDM::FtmChMode, USBDM::FtmChannelAction)
+00003f40 W USBDM::FtmChannel_T<USBDM::Ftm0Info, 5>::configure(USBDM::FtmChMode, USBDM::FtmChannelAction)
+00003f88 W USBDM::GpioBase_T<1024ul, 1074044928ul, (IRQn_Type)60, 1074786368ul, 3, (USBDM::Polarity)1>::setInput(unsigned long)
+00003fac W USBDM::QuadEncoder_T<USBDM::Ftm2Info>::configure(USBDM::FtmPrescale)
+00003ff8 W USBDM::QuadEncoder_T<USBDM::Ftm2Info>::enableFilter(int)
+00004050 W USBDM::QuadEncoder_T<USBDM::Ftm2Info>::resetPosition()
+00004068 W USBDM::FtmBase_T<USBDM::Ftm2Info>::setTimerOverflowCallback(void (*)())
+00004098 W Motor<USBDM::Ftm0Info, (unsigned char)4, (unsigned char)5, 0, USBDM::Ftm2Info, USBDM::GpioB<3, (USBDM::Polarity)1> >::toiHandler()
+000040b4 W USBDM::FtmBase_T<USBDM::Ftm2Info>::enableTimerOverflowInterrupts(bool)
+000040ec W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 9, (USBDM::Polarity)1>::setInactive()
+000040f8 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 9, (USBDM::Polarity)1>::setOut()
+00004118 W USBDM::Pcr_T<2048ul, 1074049024ul, (IRQn_Type)61, 9, 323ul>::setPCR(unsigned long)
+00004138 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 11, (USBDM::Polarity)1>::setInactive()
+00004144 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 11, (USBDM::Polarity)1>::setOut()
+00004164 W USBDM::Pcr_T<2048ul, 1074049024ul, (IRQn_Type)61, 11, 323ul>::setPCR(unsigned long)
+00004184 W PID_T<&Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::getPositionAsFloat, &Motor<USBDM::Ftm0Info, (unsigned char)2, (unsigned char)3, 3, USBDM::Ftm1Info, USBDM::GpioA<5, (USBDM::Polarity)1> >::setSpeed>::setTunings(double, double, double)
+00004224 W PID_T<&(motor2Position()), &Motor<USBDM::Ftm0Info, (unsigned char)4, (unsigned char)5, 0, USBDM::Ftm2Info, USBDM::GpioB<3, (USBDM::Polarity)1> >::setSpeed>::setTunings(double, double, double)
+000042c4 W std::_Vector_base<int, std::allocator<int> >::_M_get_Tp_allocator()
+000042dc W void std::_Destroy<int*, int>(int*, int*, std::allocator<int>&)
+000042f8 W std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl()
+000042f8 W std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl()
+00004324 W std::allocator<int>::~allocator()
+00004324 W std::allocator<int>::~allocator()
+0000433c W std::_Vector_base<int, std::allocator<int> >::_M_deallocate(int*, unsigned int)
+00004360 W std::_Vector_base<char, std::allocator<char> >::_Vector_impl::_Vector_impl()
+00004360 W std::_Vector_base<char, std::allocator<char> >::_Vector_impl::_Vector_impl()
+0000438c W std::_Vector_base<char, std::allocator<char> >::_M_deallocate(char*, unsigned int)
+000043b0 W USBDM::FtmBase_T<USBDM::Ftm0Info>::setDutyCycle(float, int)
+00004478 W USBDM::FtmBase_T<USBDM::Ftm0Info>::setDutyCycle(int, int)
+000044ec W USBDM::Pcr_T<4096ul, 1074053120ul, (IRQn_Type)62, 7, 1091ul>::setPCR(unsigned long)
+0000450c W USBDM::FtmBase_T<USBDM::Ftm0Info>::enable()
+0000452c W USBDM::FtmBase_T<USBDM::Ftm0Info>::setPeriodInTicks(unsigned long)
+000045a4 W USBDM::GpioBase_T<8192ul, 1074057216ul, (IRQn_Type)63, 1074786560ul, 0, (USBDM::Polarity)1>::setIn()
+000045c0 W USBDM::Pcr_T<8192ul, 1074057216ul, (IRQn_Type)63, 0, 323ul>::setPCR(unsigned long)
+000045e0 W USBDM::GpioBase_T<8192ul, 1074057216ul, (IRQn_Type)63, 1074786560ul, 1, (USBDM::Polarity)1>::setIn()
+000045fc W USBDM::Pcr_T<8192ul, 1074057216ul, (IRQn_Type)63, 1, 323ul>::setPCR(unsigned long)
+0000461c W USBDM::Pcr_T<2048ul, 1074049024ul, (IRQn_Type)61, 2, 1091ul>::setPCR(unsigned long)
+0000463c W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 0, (USBDM::Polarity)1>::setIn()
+00004658 W USBDM::Pcr_T<2048ul, 1074049024ul, (IRQn_Type)61, 0, 323ul>::setPCR(unsigned long)
+00004678 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 1, (USBDM::Polarity)1>::setIn()
+00004694 W USBDM::Pcr_T<2048ul, 1074049024ul, (IRQn_Type)61, 1, 323ul>::setPCR(unsigned long)
+000046b4 W USBDM::GpioBase_T<512ul, 1074040832ul, (IRQn_Type)59, 1074786304ul, 5, (USBDM::Polarity)1>::setIn()
+000046d0 W USBDM::Pcr_T<512ul, 1074040832ul, (IRQn_Type)59, 5, 323ul>::setPCR(unsigned long)
+000046f0 W USBDM::FtmBase_T<USBDM::Ftm1Info>::configure(USBDM::FtmMode, USBDM::FtmClockSource, USBDM::FtmPrescale)
+00004724 W USBDM::GpioBase_T<1024ul, 1074044928ul, (IRQn_Type)60, 1074786368ul, 3, (USBDM::Polarity)1>::setIn()
+00004740 W USBDM::Pcr_T<1024ul, 1074044928ul, (IRQn_Type)60, 3, 323ul>::setPCR(unsigned long)
+00004760 W USBDM::FtmBase_T<USBDM::Ftm2Info>::configure(USBDM::FtmMode, USBDM::FtmClockSource, USBDM::FtmPrescale)
+00004794 W USBDM::GpioBase_T<2048ul, 1074049024ul, (IRQn_Type)61, 1074786432ul, 11, (USBDM::Polarity)1>::clear()
+000047ac W std::_Vector_base<char, std::allocator<char> >::_M_get_Tp_allocator()
+000047c4 W void std::_Destroy<char*, char>(char*, char*, std::allocator<char>&)
+000047e0 W void std::_Destroy<int*>(int*, int*)
+000047f8 W std::allocator<int>::allocator()
+000047f8 W std::allocator<int>::allocator()
+00004810 W __gnu_cxx::new_allocator<int>::~new_allocator()
+00004810 W __gnu_cxx::new_allocator<int>::~new_allocator()
+00004828 W __gnu_cxx::new_allocator<int>::deallocate(int*, unsigned int)
+00004840 W __gnu_cxx::new_allocator<char>::deallocate(char*, unsigned int)
+00004858 W USBDM::FtmBase_T<USBDM::Ftm0Info>::configureAllPins()
+00004864 W USBDM::FtmBase_T<USBDM::Ftm1Info>::enable()
+00004884 W USBDM::FtmBase_T<USBDM::Ftm2Info>::enable()
+000048a4 W void std::_Destroy<char*>(char*, char*)
+000048bc W void std::_Destroy_aux<true>::__destroy<int*>(int*, int*)
+000048d0 W __gnu_cxx::new_allocator<int>::new_allocator()
+000048d0 W __gnu_cxx::new_allocator<int>::new_allocator()
+000048e8 W USBDM::FtmBase_T<USBDM::Ftm1Info>::configureAllPins()
+000048f4 W USBDM::FtmBase_T<USBDM::Ftm2Info>::configureAllPins()
+00004900 W void std::_Destroy_aux<true>::__destroy<char*>(char*, char*)
+000049f8 W std::vector<char, std::allocator<char> >::~vector()
+000049f8 W std::vector<char, std::allocator<char> >::~vector()
+00004ab0 T USBDM::waitMS(unsigned long)
+00004bbc T USBDM::getErrorMessage(USBDM::ErrorCode)
+00004bec T USBDM::checkError()
+00004c3c T cpp_initialise
+00004c48 T USBDM::enableNvicInterrupt(IRQn_Type, unsigned long)
+00004c7c T operator delete(void*)
+00004c84 T __aeabi_atexit
+00004c8e W std::allocator<char>::allocator()
+00004c8e W std::allocator<char>::allocator()
+00004c90 W std::allocator<char>::~allocator()
+00004c90 W std::allocator<char>::~allocator()
+00004c94 T round
+00004d2c T abort
+00004d3c T __assert_func
+00004d74 T __cxa_atexit
+00004d94 T exit
+00004dbc T fiprintf
+00004dbc T fprintf
+00004de0 T __libc_init_array
+00004e2c T malloc
+00004e3c T free
+00004e4c T memcpy
+00004e5e T memset
+00004e70 T _free_r
+00004ef8 T _malloc_r
+00004fa0 T _sbrk_r
+00004fc0 T _raise_r
+00005010 T raise
+00005020 T _kill_r
+00005044 T _getpid_r
+00005074 T __sfputs_r
+00005098 T _vfiprintf_r
+00005098 T _vfprintf_r
+000052a0 T __cvt
+00005360 T __exponent
+000053c8 W _printf_float
+000057e8 T _printf_common
+000058cc T _printf_i
+00005af4 T __swbuf_r
+00005b9c T __swsetup_r
+00005d98 T _dtoa_r
+00006908 T __sflush_r
+00006a10 T _fflush_r
+00006a64 T _cleanup_r
+00006ae0 T __sfmoreglue
+00006b0c T __sinit
+00006b6c T __sfp
+00006be0 T _localeconv_r
+00006be8 T __smakebuf_r
+00006c84 T memchr
+00006ca2 T _Balloc
+00006d0c T _Bfree
+00006d3a T __multadd
+00006dae T __hi0bits
+00006dee T __lo0bits
+00006e48 T __i2b
+00006e5a T __multiply
+00006f8c T __pow5mult
+00007028 T __lshift
+000070ce T __mcmp
+00007108 T __mdiff
+000071c4 T __d2b
+00007264 T _calloc_r
+00007280 T __fpclassifyd
+000072c8 T __sread
+000072ea T __swrite
+00007322 T __sseek
+00007346 T __sclose
+0000734e T strlen
+00007360 T _write_r
+00007384 T _close_r
+000073a4 T _fstat_r
+000073c8 T _isatty_r
+000073e8 T _lseek_r
+0000740c T _read_r
+00007908 V vtable for USBDM::Uart_brfa_T<USBDM::Uart0Info>
+00007938 V vtable for USBDM::Uart_T<USBDM::Uart0Info>
+00007968 V vtable for USBDM::Uart
+00007998 V vtable for USBDM::FormattedIO
+000079c0 T USBDM::Mcg::clockInfo
+00007df4 T _global_impure_ptr
+00007e4c T __sf_fake_stdin
+00007e6c T __sf_fake_stdout
+00007e8c T __sf_fake_stderr
+00007eb8 T __mprec_tens
+00007f80 T __mprec_bigtens
+00007fb4 T _init
+00007fc0 T _fini
+00007fcc T __CTOR_END__
+00007fcc T __CTOR_LIST__
+00007fcc T __DTOR_END__
+00007fcc T __DTOR_LIST__
+00007ff4 R __etext
 00008000 A __heap_size__
 00008000 A __stack_size__
-00008014 T __sf_fake_stderr
-00008040 T __mprec_tens
-00008108 T __mprec_bigtens
-0000813c T _init
-00008148 T _fini
-00008154 T __CTOR_END__
-00008154 T __CTOR_LIST__
-00008154 T __DTOR_END__
-00008154 T __DTOR_LIST__
-0000817c R __etext
 1fff0000 D __DATA_RAM
 1fff0000 D __data_start__
 1fff0000 D __dso_handle

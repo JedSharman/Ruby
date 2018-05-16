@@ -466,15 +466,12 @@ bool ControlUpdate()
 
 	if(currentTrackedState == Gripping1)
 	{
-		//steadyStateFound = ;
-		stopHere();
-
+		steadyStateFound = true;//Current configuration grippers are steady after return from call to open/close
 	}
 
 	if(currentTrackedState == Gripping2)
 	{
-		//steadyStateFound = ;
-		stopHere();
+		steadyStateFound = true;//Current configuration grippers are steady after return from call to open/close
 	}
 
 
@@ -780,12 +777,9 @@ int main() {
 int gap = 1000;
    while(true)
    {
-	   console.write("Closed: ").writeln(Gripper1::close());
 	   console.write("Closed: ").writeln(Gripper2::close());
-	   waitMS(gap);
-	   console.write("Open: ").writeln(Gripper1::open());
+
 	   console.write("Open: ").writeln(Gripper2::open());
-	   waitMS(gap);
    }
    return 0;
 }

@@ -30,14 +30,15 @@ private:
    /** Duty cycle for solenoid on (percent) */
    static constexpr int SOLENOID_PWM_VALUE     = 100;
    /** Solenoid movement delay - closing (ms) */
-   static constexpr int SOLENOID_OPERATE_DELAY = 100;
+   static constexpr int SOLENOID_OPERATE_DELAY = 200;
    /** Solenoid movement delay - Opening (ms) */
-   static constexpr int SOLENOID_RELEASE_DELAY = 100;
+   static constexpr int SOLENOID_RELEASE_DELAY = 200;
 
    using Timer  = USBDM::FtmBase_T<DriverFTM>;
    using Driver = USBDM::FtmChannel_T<DriverFTM,channel>;
 
 public:
+
    /**
     * Initialise the Gripper
     */
@@ -104,10 +105,11 @@ public:
    static bool open() {
       // Release solenoid
       Driver::setDutyCycle(0);
-      // Wait for release confirmation
-      return USBDM::waitMS(SOLENOID_RELEASE_DELAY, OpenSensor::read);
+
+      USBDM::waitMS(SOLENOID_RELEASE_DELAY);
+
+      return true;
    }
 
 };
-
 #endif /* PROJECT_HEADERS_GRIPPER_H_ */
