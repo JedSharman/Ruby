@@ -606,7 +606,6 @@ bool interpretCommand()
 	int constexpr fastforward1[4] = {-3, 1, 1, 3};//Sequence for putting the position of motor1 forward two indexes
 	int constexpr fastforward2[4] = {-4, 2, 2, 4};//Sequence for putting the position of motor2 forward two indexes
 
-
 	bool result = false;
 
 	if(commandInterpreterIndex < readCommands.size())
@@ -635,26 +634,19 @@ bool interpretCommand()
 		if(commands.size() != 0)
 		{
 			//Integrity check for out of bounds moves
-
 			u_int length = commands.size();
 
-			u_int i = 0;
-			while(i < length)
+			for(u_int i = 0; i < length; i++)
 			{
 				//Update world model for motor offsets
 				if(commands[i] == -1)
 				{
 					if(plannedOffsetMotor1 == MINPLANNEDOFFSET)
 					{
-						const int *precalc = fastforward1;//Pointer to a (const int) not a constatn pointer to an int
+						const int *precalc = fastforward1;//Pointer to a (const int) not a constant pointer to an int
 
-						u_int j = 0;
-						while(j < sizeof(precalc))
-						{
+						for(u_int j = 0; j < sizeof(precalc); j++)
 							interpretedActions.push_back(precalc[j]);
-
-							j += 1;
-						}
 
 						plannedOffsetMotor1 += 2;//two moves in fastforward
 					}
@@ -668,15 +660,10 @@ bool interpretCommand()
 				{
 					if(plannedOffsetMotor1 == MAXPLANNEDOFFSET)
 					{
-						const int *precalc = rewind1;//Pointer to a (const int) not a constatn pointer to an int
+						const int *precalc = rewind1;//Pointer to a (const int) not a constant pointer to an int
 
-						u_int j = 0;
-						while(j < sizeof(precalc))
-						{
+						for(u_int j = 0; j < sizeof(precalc); j++)
 							interpretedActions.push_back(precalc[j]);
-
-							j += 1;
-						}
 
 						plannedOffsetMotor1 -= 2;//two moves in rewind
 					}
@@ -690,15 +677,10 @@ bool interpretCommand()
 				{
 					if(plannedOffsetMotor2 == MINPLANNEDOFFSET)
 					{
-						const int *precalc = fastforward2;//Pointer to a (const int) not a constatn pointer to an int
+						const int *precalc = fastforward2;//Pointer to a (const int) not a constant pointer to an int
 
-						u_int j = 0;
-						while(j < sizeof(precalc))
-						{
+						for(u_int j = 0; j < sizeof(precalc); j++)
 							interpretedActions.push_back(precalc[j]);
-
-							j += 1;
-						}
 
 						plannedOffsetMotor2 += 2;//two moves in fastforward
 					}
@@ -712,15 +694,10 @@ bool interpretCommand()
 				{
 					if(plannedOffsetMotor2 == MAXPLANNEDOFFSET)
 					{
-						const int *precalc = rewind2;//Pointer to a (const int) not a constatn pointer to an int
+						const int *precalc = rewind2;//Pointer to a (const int) not a constant pointer to an int
 
-						u_int j = 0;
-						while(j < sizeof(precalc))
-						{
+						for(u_int j = 0; j < sizeof(precalc); j++)
 							interpretedActions.push_back(precalc[j]);
-
-							j += 1;
-						}
 
 						plannedOffsetMotor2 -= 2;//two moves in rewind
 					}
@@ -729,8 +706,6 @@ bool interpretCommand()
 
 					plannedOffsetMotor2 += 1;
 				}
-
-				i += 1;
 			}
 		}
 	}
