@@ -155,12 +155,12 @@ static void calibrate() {
       shutDown();
    }
 
-//   console.writeln("Calibrating motor 1");
-//   if (!Motor1::calibrate()) {
-//      console.writeln("Failed calibrate motor 1");
-//      shutDown();
-//   }
-//
+   console.writeln("Calibrating motor 1");
+   if (!Motor1::calibrate()) {
+      console.writeln("Failed calibrate motor 1");
+      shutDown();
+   }
+
 //   console.writeln("Calibrating motor 2");
 //   if (!Motor2::calibrate()) {
 //      console.writeln("Failed calibrate motor 2");
@@ -757,7 +757,7 @@ void thread1()
 }
 
 int main() {
-   console.writeln("Starting");
+    console.writeln("Starting");
 
    console.write("Core clock = ").writeln(::SystemCoreClock);
    console.write("Bus clock  = ").writeln(::SystemBusClock);
@@ -774,13 +774,25 @@ int main() {
 //	   thread1();
 //   }
 
-int gap = 1000;
+while(true)
+{
+	console.writeln(Motor1::getPosition());
+}
+
+console.readChar();//Wait for input to make noise
+/*int gap = 1000;
    while(true)
    {
-	   console.write("Closed: ").writeln(Gripper2::close());
+	   console.write("Closed: ").writeln(Gripper1::close());
 
-	   console.write("Open: ").writeln(Gripper2::open());
-   }
+	   console.write("Open: ").writeln(Gripper1::open());
+   }//*/
+Gripper1::close();
+
+console.readChar();
+
+Gripper1::open();
+
    return 0;
 }
 

@@ -1,4 +1,4 @@
-19:39:04 **** Incremental Build of configuration Debug for project Ruby ****
+15:45:42 **** Incremental Build of configuration Debug for project Ruby ****
 "C:\\Program Files (x86)\\pgo\\USBDM 4.12.1.210\\usbdm-make" all 
 'Building file: ../Sources/Ruby.cpp'
 'Invoking: ARM C++ Compiler'
@@ -15,10 +15,6 @@ C:/Users/jaeha/Documents/Swinburne/2018 Semester 1/Final Year/Control/Repo/Ruby/
 ../Sources/Ruby.cpp:381:11: warning: NULL used in arithmetic [-Wpointer-arith]
   if(ch == NULL)
            ^
-../Sources/Ruby.cpp: In function 'int main()':
-../Sources/Ruby.cpp:780:5: warning: unused variable 'gap' [-Wunused-variable]
- int gap = 1000;
-     ^
 'Finished building: ../Sources/Ruby.cpp'
 ' '
 'Building target: Ruby.elf'
@@ -35,5 +31,5 @@ arm-none-eabi-nm "Ruby.elf" --demangle --defined-only --extern-only --numeric-so
 'Finished building: Ruby.sym'
 ' '
 
-19:39:07 Build Finished (took 2s.155ms)
+15:45:44 Build Finished (took 2s.218ms)
 

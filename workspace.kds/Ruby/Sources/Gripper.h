@@ -30,9 +30,9 @@ private:
    /** Duty cycle for solenoid on (percent) */
    static constexpr int SOLENOID_PWM_VALUE     = 100;
    /** Solenoid movement delay - closing (ms) */
-   static constexpr int SOLENOID_OPERATE_DELAY = 200;
+   static constexpr int SOLENOID_OPERATE_DELAY = 100;
    /** Solenoid movement delay - Opening (ms) */
-   static constexpr int SOLENOID_RELEASE_DELAY = 200;
+   static constexpr int SOLENOID_RELEASE_DELAY = 100;
 
    using Timer  = USBDM::FtmBase_T<DriverFTM>;
    using Driver = USBDM::FtmChannel_T<DriverFTM,channel>;
@@ -87,11 +87,10 @@ public:
 	  //Initial 5V
 	  Driver::configure(USBDM::FtmChMode_Disabled, USBDM::FtmChannelAction_None);//Has to be turned off to allow the 5V pull up to pull to 5V, any less than 5V fails to close claw
 
-	  USBDM::waitMS(SOLENOID_OPERATE_DELAY);
+	  USBDM::waitMS(SOLENOID_OPERATE_DELAY);//TODO replace with a non blocking steady state functionality
 
-	  //PWM
-	  Driver::configure(USBDM::FtmChMode_PwmHighTruePulses, USBDM::FtmChannelAction_None);
-      Driver::setDutyCycle(SOLENOID_PWM_VALUE);
+	  //TODO add PWM
+
 
       return true;
    }
@@ -104,9 +103,10 @@ public:
     */
    static bool open() {
       // Release solenoid
+	  Driver::configure(USBDM::FtmChMode_PwmHighTruePulses, USBDM::FtmChannelAction_None);//TODO remove when the PWM has been implemented replacing turning of the pin
       Driver::setDutyCycle(0);
 
-      USBDM::waitMS(SOLENOID_RELEASE_DELAY);
+      USBDM::waitMS(SOLENOID_RELEASE_DELAY);//TODO replace with a non blocking steady state functionality
 
       return true;
    }
