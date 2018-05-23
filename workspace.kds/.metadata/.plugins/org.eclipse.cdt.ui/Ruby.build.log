@@ -1,4 +1,4 @@
-15:45:42 **** Incremental Build of configuration Debug for project Ruby ****
+19:56:33 **** Incremental Build of configuration Debug for project Ruby ****
 "C:\\Program Files (x86)\\pgo\\USBDM 4.12.1.210\\usbdm-make" all 
 'Building file: ../Sources/Ruby.cpp'
 'Invoking: ARM C++ Compiler'
@@ -12,7 +12,7 @@ C:/Users/jaeha/Documents/Swinburne/2018 Semester 1/Final Year/Control/Repo/Ruby/
            ch = NULL;
               ^
 ../Sources/Ruby.cpp: In function 'bool readFromPC()':
-../Sources/Ruby.cpp:381:11: warning: NULL used in arithmetic [-Wpointer-arith]
+../Sources/Ruby.cpp:407:11: warning: NULL used in arithmetic [-Wpointer-arith]
   if(ch == NULL)
            ^
 'Finished building: ../Sources/Ruby.cpp'
@@ -31,5 +31,5 @@ arm-none-eabi-nm "Ruby.elf" --demangle --defined-only --extern-only --numeric-so
 'Finished building: Ruby.sym'
 ' '
 
-15:45:44 Build Finished (took 2s.218ms)
+19:56:35 Build Finished (took 2s.346ms)
 

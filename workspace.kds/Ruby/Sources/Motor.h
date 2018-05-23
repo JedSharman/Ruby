@@ -9,6 +9,7 @@
 #define PROJECT_HEADERS_MOTOR_H_
 
 #include "hardware.h"
+#include <string.h>
 
 /**
  *
@@ -34,7 +35,6 @@ private:
 
    using Motor_A = USBDM::FtmChannel_T<DriverFTM, ChannelA>;
    using Motor_B = USBDM::FtmChannel_T<DriverFTM, ChannelB>;
-
 
 public:
    using Encoder    = USBDM::QuadEncoder_T<EncoderFTM>;
@@ -88,9 +88,21 @@ public:
    }
 
    static bool fn() {
-      // Report status
-//      USBDM::console.write("Pos=").write(Motor::getPosition()).write(", Index=").writeln(EncoderIndex::read());
-      return EncoderIndex::read();
+	  //! How large an arc the calibration can be safely applied
+	  static constexpr int MAX_CALIBRATE_ARC_MOVE = 700;//absolute value
+	  static constexpr int MIN_CALIBRATE_ARC_MOVE = -MAX_CALIBRATE_ARC_MOVE;
+
+	  // Report status
+      //USBDM::console.write("Pos=").write(Motor::getPosition()).write(", Index=").writeln(EncoderIndex::read());
+
+	  //Safe guard against over turning
+//	  if((getPosition() > MAX_CALIBRATE_ARC_MOVE) || (getPosition() < MIN_CALIBRATE_ARC_MOVE))//Check motor is within bounds
+//	  {
+//		  //TODO stop here, right now it turns off motor and waits for time out
+//		  setSpeed(0);
+//	  }
+
+	  return EncoderIndex::read();
    };
 
    /**
@@ -102,12 +114,12 @@ public:
       //! Speed to use when homing motor
       static constexpr int SLOW_SPEED         = 20;
       //! How long to wait for motor to reach home position
-      static constexpr int MAX_CALIBRATE_WAIT = 5000;
+      static constexpr int MAX_CALIBRATE_WAIT = 1000;
 
+      Encoder::resetPosition();//mark safety region zero
       setSpeed(SLOW_SPEED);
-//      setSpeed(0);
-//
-      // Test motor operation at low speed without stop
+
+      //// Test motor operation at low speed without stop
 //      for(;;) {
 //         fn();
 //      }
@@ -120,7 +132,7 @@ public:
       Timer::enableFaultInterrupt();
 
       bool calibrated = USBDM::waitMS(MAX_CALIBRATE_WAIT, fn);
-      Encoder::resetPosition();
+      Encoder::resetPosition();//mark index
       setSpeed(0);
 
       return calibrated;

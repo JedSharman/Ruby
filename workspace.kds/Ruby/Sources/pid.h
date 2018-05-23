@@ -10,7 +10,7 @@
 
 #include <time.h>
 
-#define FULLROTATIONTICKS (8000)
+#define FULLROTATIONTICKS (8192)
 #define QUARTERROTATIONTICKS (FULLROTATIONTICKS/4)
 #define SAMPLES_FOR_AVERAGE (400)
 
@@ -23,8 +23,8 @@ public:
 /**
  * These template parameters connect the PID controller to the control variables/operations
  *
- * @tparam inputFn     Input function  - used to obtain value of system state
- * @tparam outputFn    Output function - used to modify the control variable
+ * @tparam inputFn     						Input function  - used to obtain value of system state
+ * @tparam outputFn    						Output function - used to modify the control variable
  *
  */
 template<PID::InFunction inputFn, PID::OutFunction outputFn>
@@ -49,7 +49,7 @@ private:
    double setpoint;           // Setpoint for controller
    double currentError;
 
-
+   double eMMD;				  // A multiplier used to handle inequalites in the direction of the motor and the encoder
 
    bool averageErrorReady = false;
    int averageErrorRecord[SAMPLES_FOR_AVERAGE];
@@ -60,20 +60,31 @@ public:
    /**
     * Constructor
     *
-    * @param Kp          Initial proportional constant
-    * @param Ki          Initial integral constant
-    * @param Kd          Initial differential constant
-    * @param sampleTime  Sample interval for controller. (update() should be called at this interval)
-    * @param outMin      Minimum value of output variable
-    * @param outMax      Maximum value of output variable
+    * @param Kp          					Initial proportional constant
+    * @param Ki          					Initial integral constant
+    * @param Kd          					Initial differential constant
+    * @param sampleTime  					Sample interval for controller. (update() should be called at this interval)
+    * @param outMin      					Minimum value of output variable
+    * @param outMax      					Maximum value of output variable
+    * @param encoderAndMotorMatchDirection	Defines if the encoder and motor use the same direction of rotation
     */
-   PID_T(double Kp, double Ki, double Kd, double sampleTime, double outMin, double outMax) :
+   PID_T(double Kp, double Ki, double Kd, double sampleTime, double outMin, double outMax, bool encoderAndMotorMatchDirection) :
       sampleTime(sampleTime), outMin(outMin), outMax(outMax)  {
 
       // Controller initially disabled
       enabled = false;
 
       setTunings(Kp, Ki, Kd);
+
+      if(encoderAndMotorMatchDirection)
+      {
+    	  eMMD = 1;
+      }
+
+      else
+      {
+    	  eMMD = -1;
+      }
 
       averageErrorRecordIndex = 0;
       averageErrorReady = false;
@@ -86,7 +97,9 @@ public:
     * @param enable True to enable
     */
    void enable(bool enable = true) {
-      if(enable != enabled) {
+	  averageErrorReady = false;//Discontinuity breaks average
+
+	  if(enable != enabled) {
          // Just enabled
          currentInput = inputFn();
          integral     = currentOutput;
@@ -134,7 +147,7 @@ public:
 //      }
 //      else {
          // Calculate PID Output
-         currentOutput = kp * currentError + integral - kd * dInput;
+         currentOutput = eMMD*(kp * currentError + integral - kd * dInput);//Negative 1 is for the difference in direction between encoder and motors. The motors negative direction is the encoders positive direction
 //      }
       if(currentOutput > outMax) {
          currentOutput = outMax;

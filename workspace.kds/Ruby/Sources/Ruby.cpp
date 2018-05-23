@@ -29,7 +29,7 @@
 #include "pit.h"
 #include "pid.h"
 
-#define STEADY_STATE_TOLERANCE ((FULLROTATIONTICKS)/(360*3))
+#define STEADY_STATE_TOLERANCE (((FULLROTATIONTICKS)/(360)) * ((3)/(3)))
 
 using namespace USBDM;
 
@@ -38,6 +38,11 @@ std::vector<int> interpretedActions;
 
 //Holds a list of chars read from the pc
 std::vector<char> readCommands;
+
+//represents the offset from the index to the initial position of each motor (in encoder ticks)
+constexpr int motor1InitialOffset = -401;
+constexpr int motor2InitialOffset = -2581;
+
 
 void stopHere() {
    for(;;) {
@@ -139,6 +144,70 @@ static void testEncoders() {
 }
 #endif
 
+static constexpr float pidInterval  = 500 * us;
+static constexpr float kp           = 0.01f;
+static constexpr float ki           = 0.000f;
+static constexpr float kd           = 00.1f*pidInterval;
+
+
+PID_T<Motor1::getPositionAsFloat, Motor1::setSpeed> pid1(kp, ki, kd, pidInterval, -30, +30, false);
+PID_T<Motor2::getPositionAsFloat, Motor2::setSpeed> pid2(kp, ki, kd, pidInterval, -30, +30, true);
+
+/**
+ * Debug PID call-back
+ * Uses TpA to check timing.
+ */
+void controller() {
+   TpA::set();
+   pid2.update();
+   pid1.update();
+   TpA::clear();
+}
+
+using Timer = Pit;
+using TimerChannel = PitChannel<0>;
+
+/**
+ * Configure PID timer call-back
+ */
+void initialisePids() {
+   Timer::configure(PitDebugMode_Stop);
+   TimerChannel::setCallback(controller);
+   TimerChannel::configure(pidInterval, PitChannelIrq_Enable);
+   TimerChannel::enableNvicInterrupts(true, NvicPriority_Normal);
+
+   pid1.setSetpoint(0);
+   pid1.enable(false);//initialise turned off
+
+   pid2.setSetpoint(0);
+   pid2.enable(false);//initialise turned off
+}
+
+int testStep = 2000;
+
+void testPid() {
+   int position = 1;
+   for(;;) {
+      auto fn = [](){
+//         double out = pid2.getOutput();
+         console.
+            write((int)pid2.getSetpoint()).write(" ").
+            write((int)pid2.getInput()).write(" ").
+            write((int)pid2.getError()).write(" ").
+            writeln(pid2.getOutput());
+//            writeln((int)out).setWidth(3).setPadding(Padding_LeadingZeroes).writeln((int)(out*1000)%1000).reset();
+         return false;
+      };
+      position = -position;
+//      int oldPosition = position;
+//      do {
+//         position = (2000*(rand()%4))-3000;
+//      } while (position == oldPosition);
+      pid2.setSetpoint(position*testStep);
+      waitMS(1000, fn);
+   }
+}
+
 /**
  * Calibrate motors and grippers
  */
@@ -155,17 +224,33 @@ static void calibrate() {
       shutDown();
    }
 
-   console.writeln("Calibrating motor 1");
-   if (!Motor1::calibrate()) {
+   console.writeln("Calibrating");
+   console.write("Position gripper 1: Press any key to continue!");
+   console.readChar();
+
+   Motor1::Encoder::resetPosition();//Zero motor 1
+
+   console.write("\nPosition gripper 2: Press any key to continue!");
+   console.readChar();
+
+   Motor2::Encoder::resetPosition();//Zero motor 1
+
+   console.write("\n\n");
+
+   /*console.writeln("Calibrating motor 1");
+      if (!Motor1::calibrate()) {
+	  console.writeln(Motor1::getPosition());
       console.writeln("Failed calibrate motor 1");
+      console.writeln("Check motor was turn to correct starting position");
       shutDown();
    }
 
-//   console.writeln("Calibrating motor 2");
-//   if (!Motor2::calibrate()) {
-//      console.writeln("Failed calibrate motor 2");
-//      shutDown();
-//   }
+
+   console.writeln("Calibrating motor 2");
+   if (!Motor2::calibrate()) {
+      console.writeln("Failed calibrate motor 2");
+      shutDown();
+   }*/
 }
 
 /**
@@ -288,7 +373,14 @@ void initialise() {
    Motor1::initialise();
    Motor2::initialise();
 
+   Motor1::Encoder::resetPosition();
+
+   console.writeln(Motor1::getPosition());
+
+   initialisePids();
+
    calibrate();
+
    waitMS(10);
 }
 
@@ -301,72 +393,6 @@ float motor2Position() {
    DacOut::setValue(position);
    return position;
 };
-
-static constexpr float pidInterval  = 500 * us;
-static constexpr float kp           = 0.2f;
-static constexpr float ki           = 5.0f;
-static constexpr float kd           = 20.0f*pidInterval;
-
-
-PID_T<Motor1::getPositionAsFloat, Motor1::setSpeed> pid1(kp, ki, kd, pidInterval, -30, +30);
-//PID_T<Motor2::getPositionAsFloat, Motor2::setSpeed> pid2(kp, ki, kd, pidInterval, -30, +30);
-// For debug - DAC outputs motor 2 position
-PID_T<motor2Position, Motor2::setSpeed> pid2(kp, ki, kd, pidInterval, -60, +60);
-
-/**
- * Debug PID call-back
- * Uses TpA to check timing.
- */
-void controller() {
-   TpA::set();
-   pid2.update();
-   pid1.update();
-   TpA::clear();
-}
-
-using Timer = Pit;
-using TimerChannel = PitChannel<0>;
-
-/**
- * Configure PID timer call-back
- */
-void enablePid() {
-   Timer::configure(PitDebugMode_Stop);
-   TimerChannel::setCallback(controller);
-   TimerChannel::configure(pidInterval, PitChannelIrq_Enable);
-   TimerChannel::enableNvicInterrupts(true, NvicPriority_Normal);
-
-   pid1.setSetpoint(0);
-   pid1.enable();
-
-   pid2.setSetpoint(0);
-   pid2.enable();
-}
-
-int testStep = 2000;
-
-void testPid() {
-   int position = 1;
-   for(;;) {
-      auto fn = [](){
-//         double out = pid2.getOutput();
-         console.
-            write((int)pid2.getSetpoint()).write(" ").
-            write((int)pid2.getInput()).write(" ").
-            write((int)pid2.getError()).write(" ").
-            writeln(pid2.getOutput());
-//            writeln((int)out).setWidth(3).setPadding(Padding_LeadingZeroes).writeln((int)(out*1000)%1000).reset();
-         return false;
-      };
-      position = -position;
-//      int oldPosition = position;
-//      do {
-//         position = (2000*(rand()%4))-3000;
-//      } while (position == oldPosition);
-      pid2.setSetpoint(position*testStep);
-      waitMS(1000, fn);
-   }
-}
 
 bool readFromPC()
 {
@@ -430,7 +456,7 @@ u_int PIDUpdaterIndex = 0;
 constexpr int MOTOR_ACTION_OFFSET = 0;
 constexpr int GRIPPER_ACTION_OFFSET = 2;
 
-bool ControlUpdate()
+bool ControlUpdate(int actionArgument)
 {
 /*
  * -4 open gripper2
@@ -488,96 +514,100 @@ bool ControlUpdate()
 
 	if(currentTrackedState == Free)
 	{
-		if(PIDUpdaterIndex < interpretedActions.size())
+		int actionToComplete = 0;
+
+
+		/*if(PIDUpdaterIndex < interpretedActions.size())
 		{
-			int actionToComplete = interpretedActions[PIDUpdaterIndex];//read from interpreted commands
+			actionToComplete = interpretedActions[PIDUpdaterIndex];//read from interpreted commands
 
 			PIDUpdaterIndex ++;
-
-			console.write("Actioning ").writeln(actionToComplete);
-
-			if(actionToComplete == 0)
-			{
-				//Nothing
-			}
-
-			else if(actionToComplete == 1) //Rotate Motor 1 90 degrees
-			{
-				currentTrackedState = Turning1;
-
-				pid1.setSetpoint(pid1.getSetpoint() + QUARTERROTATIONTICKS);
-
-				result = true;
-			}
-
-			else if(actionToComplete == -1) //Rotate Motor 1 -90 degrees
-			{
-				currentTrackedState = Turning1;
-
-				pid1.setSetpoint(pid1.getSetpoint() - QUARTERROTATIONTICKS);
-
-				result = true;
-			}
-
-			else if(actionToComplete == 2) //Rotate Motor 2 90 degrees
-			{
-				currentTrackedState = Turning2;
-
-				pid2.setSetpoint(pid2.getSetpoint() + QUARTERROTATIONTICKS);
-
-				result = true;
-			}
-
-			else if(actionToComplete == -2) //Rotate Motor 2 -90 degrees
-			{
-				currentTrackedState = Turning2;
-
-				pid2.setSetpoint(pid2.getSetpoint() - QUARTERROTATIONTICKS);
-
-				result = true;
-			}
-
-			else if(actionToComplete == 3) //Close gripper1
-			{
-				currentTrackedState = Gripping1;
-
-				Gripper1::close();
-
-				result = true;
-			}
-
-			else if(actionToComplete == 4) //Close gripper2
-			{
-				currentTrackedState = Gripping2;
-
-				Gripper2::close();
-
-				result = true;
-			}
-
-			else if(actionToComplete == -3) //Open gripper1
-			{
-				currentTrackedState = Gripping1;
-
-				Gripper1::open();
-
-				result = true;
-			}
-
-			else if(actionToComplete == -4) //Open gripper2
-			{
-				currentTrackedState = Gripping2;
-
-				Gripper2::open();
-
-				result = true;
-			}
 
 		}
 
 		else
 		{
 			result = false;
+		}//*/
+
+		actionToComplete = actionArgument;
+
+		console.write("Actioning ").writeln(actionToComplete);
+
+		if(actionToComplete == 0)
+		{
+			result = true;
+		}
+
+		else if(actionToComplete == 1) //Rotate Motor 1 90 degrees
+		{
+			currentTrackedState = Turning1;
+
+			pid1.setSetpoint(pid1.getSetpoint() + QUARTERROTATIONTICKS);
+
+			result = true;
+		}
+
+		else if(actionToComplete == -1) //Rotate Motor 1 -90 degrees
+		{
+			currentTrackedState = Turning1;
+
+			pid1.setSetpoint(pid1.getSetpoint() - QUARTERROTATIONTICKS);
+
+			result = true;
+		}
+
+		else if(actionToComplete == 2) //Rotate Motor 2 90 degrees
+		{
+			currentTrackedState = Turning2;
+
+			pid2.setSetpoint(pid2.getSetpoint() + QUARTERROTATIONTICKS);
+
+			result = true;
+		}
+
+		else if(actionToComplete == -2) //Rotate Motor 2 -90 degrees
+		{
+			currentTrackedState = Turning2;
+
+			pid2.setSetpoint(pid2.getSetpoint() - QUARTERROTATIONTICKS);
+
+			result = true;
+		}
+
+		else if(actionToComplete == 3) //Close gripper1
+		{
+			currentTrackedState = Gripping1;
+
+			Gripper1::close();
+
+			result = true;
+		}
+
+		else if(actionToComplete == 4) //Close gripper2
+		{
+			currentTrackedState = Gripping2;
+
+			Gripper2::close();
+
+			result = true;
+		}
+
+		else if(actionToComplete == -3) //Open gripper1
+		{
+			currentTrackedState = Gripping1;
+
+			Gripper1::open();
+
+			result = true;
+		}
+
+		else if(actionToComplete == -4) //Open gripper2
+		{
+			currentTrackedState = Gripping2;
+			Gripper2::open();
+
+			result = true;
 		}
 	}
 
@@ -747,51 +777,102 @@ void thread1()
 	readFromPC();
 
 	//Check PIDs
-	ControlUpdate();
+	ControlUpdate(0);
 
 	//Interpret commands
 	interpretCommand();
 
 	//Check PIDs
-	ControlUpdate();
+	ControlUpdate(0);
 }
 
 int main() {
-    console.writeln("Starting");
+   console.writeln("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");//clear screen
+
+   console.writeln("Starting");
 
    console.write("Core clock = ").writeln(::SystemCoreClock);
    console.write("Bus clock  = ").writeln(::SystemBusClock);
 
    initialise();
 
-//   enablePid();
-//
-//   pid1.setSetpoint(0);
-//   pid2.setSetpoint(0);
-
 //   while(true)
 //   {
 //	   thread1();
 //   }
 
-while(true)
-{
-	console.writeln(Motor1::getPosition());
-}
 
-console.readChar();//Wait for input to make noise
-/*int gap = 1000;
-   while(true)
-   {
-	   console.write("Closed: ").writeln(Gripper1::close());
+pid1.setTunings(5.0f, 0.1f, 0.01f);
+pid1.enable(true);
+pid1.setSetpoint(0);
 
-	   console.write("Open: ").writeln(Gripper1::open());
-   }//*/
-Gripper1::close();
+  pid2.setTunings(5.0f, 0.1f, 0.01f);
+  pid2.enable(true);
+  pid2.setSetpoint(0);
 
-console.readChar();
+  //demo
+  console.readChar();
+  Gripper1::close();
+  console.readChar();
+  Gripper2::close();
+  console.readChar();
 
-Gripper1::open();
+  //Demo
+
+  while(!ControlUpdate(1));
+
+  while(!ControlUpdate(0));
+
+  console.readChar();
+
+  while(!ControlUpdate(1));
+
+  while(!ControlUpdate(0));
+
+  console.readChar();
+
+  while(!ControlUpdate(-3));
+
+  while(!ControlUpdate(0));
+
+  console.readChar();
+
+  while(!ControlUpdate(-1));
+
+  while(!ControlUpdate(0));
+
+  console.readChar();
+
+  while(!ControlUpdate(-1));
+
+  while(!ControlUpdate(0));
+
+  console.readChar();
+
+  while(!ControlUpdate(3));
+
+  while(!ControlUpdate(0));
+
+//while(true)
+//{
+////	console.write(Motor1::getPosition()).write(", ").write(pid1.getError()).write(", ").write(pid1.getOutput()).writeln();
+////
+////	if(pid1.getIsSteadyState(STEADY_STATE_TOLERANCE))
+////	{
+////		pid1.setSetpoint(-pid1.getSetpoint());
+////	}
+//
+//	console.write(Motor2::getPosition()).write(", ").write(pid2.getError()).write(", ").write(pid2.getOutput()).writeln();
+//
+//	if(pid2.getIsSteadyState(STEADY_STATE_TOLERANCE))
+//	{
+//		pid2.setSetpoint(-pid2.getSetpoint());
+//	}
+//}
+
+  console.writeln("Blocking");
+
+  console.readChar();
 
    return 0;
 }
