@@ -614,6 +614,50 @@ bool ControlUpdate(int actionArgument)
 	return result;
 }
 
+//Cube tracking variables
+enum Face {Front, Back, Left, Right, Up, Down, None};
+
+Face grippedFace1 = Front; //---change when initial state known
+Face grippedFace2 = Down;  //--- ^as above
+
+//									 Front = 2      Back = 2       Left = 2       Right = 2      Up = 2         Down = 2
+const int cubePositions[6][6][6] = {{{0,0,0,0,0,0}, {0,0,0,0,0,0}, {1,6,2,5,4,3}, {1,6,5,2,3,4}, {1,6,3,4,2,5}, {1,6,4,3,5,2}},  //Front = 1
+									{{0,0,0,0,0,0}, {0,0,0,0,0,0}, {6,1,2,5,3,4}, {6,1,5,2,4,3}, {6,1,4,3,2,5}, {6,1,3,4,5,2}},  //Back = 1
+									{{2,5,1,6,3,4}, {5,2,1,6,4,3}, {0,0,0,0,0,0}, {0,0,0,0,0,0}, {4,3,1,6,2,5}, {3,4,1,6,5,2}},  //Left = 1
+									{{2,5,6,1,4,3}, {5,2,6,1,3,4}, {0,0,0,0,0,0}, {0,0,0,0,0,0}, {3,4,6,1,2,5}, {4,3,6,1,5,2}},  //Right = 1
+									{{2,5,4,3,1,6}, {5,2,3,4,1,6}, {3,4,2,5,1,6}, {4,3,5,2,1,6}, {0,0,0,0,0,0}, {0,0,0,0,0,0}},  //Up = 1
+									{{2,5,3,4,6,1}, {5,2,4,3,6,1}, {4,3,2,5,6,1}, {3,4,5,2,6,1}, {0,0,0,0,0,0}, {0,0,0,0,0,0}}}; //Down = 1
+
+/*
+ *Returns position of requested face, as given by Danny's scheme
+ * 1   - Gripper 1
+ * 2   - Gripper 2
+ * 3/4 - Adjacent 1&2
+ * 5   - Above 1
+ * 6   - Above 2
+ *
+ * Returns 0 on failure.
+ */
+int LookupFace(Face f)
+{
+	int result = 0;
+	
+	if(f != None){
+	//First, check trivial case of currently gripped face
+	//if(grippedFace1 == f) {
+	//	result = 1;
+	//} else if(grippedFace2 == f) {
+	//	result = 2;
+	//} else {
+		//24 permutations of possible gripped faces
+		//Thus, a simple lookup array is used to minimise computation
+		result = cubePositions[grippedFace1][grippedFace2][f];
+	//}
+	}
+	
+	return result;
+}
+
 //The offset of the motor in right turns at completion of the current interpreted commands
 int plannedOffsetMotor1 = 0;
 int plannedOffsetMotor2 = 0;
@@ -636,7 +680,6 @@ bool interpretCommand()
 	int constexpr fastforward1[4] = {-3, 1, 1, 3};//Sequence for putting the position of motor1 forward two indexes
 	int constexpr fastforward2[4] = {-4, 2, 2, 4};//Sequence for putting the position of motor2 forward two indexes
 
-
 	bool result = false;
 
 	if(commandInterpreterIndex < readCommands.size())
@@ -645,122 +688,241 @@ bool interpretCommand()
 		commandInterpreterIndex ++;
 
 		std::vector<int> commands;
+		
+		Face f = None;
+		int position = 0;
+		bool CCW; //true = -90 deg, false = +90 deg
 
-		if(toInterpret == 'a')
+		//Determine face and direction
+		switch(toInterpret)
 		{
-			commands.push_back(2);
+			case 'f':
+				CCW = true;
+				f = Front;
+				break;
+			case 'F':
+				CCW = false;
+				f = Front;
+				break;
+			case 'b':
+				CCW = true;
+				f = Back;
+				break;
+			case 'B':
+				CCW = false;
+				f = Back
+				break;
+			case 'l':
+				CCW = true;
+				f = Left
+				break;
+			case 'L':
+				CCW = false;
+				f = Left
+				break;
+			case 'r':
+				CCW = true;
+				f = Right
+				break;
+			case 'R':
+				CCW = false;
+				f = Right
+				break;
+			case 'u':
+				CCW = true;
+				f = Up
+				break;
+			case 'U':
+				CCW = false;
+				f = Up
+				break;
+			case 'd':
+				CCW = true;
+				f = Down
+				break;
+			case 'D':
+				CCW = false;
+				f = Down
+				break;
+			case 'x':
+				CCW = true;
+				//todo
+				break;
+			case 'X':
+				CCW = false;
+				//todo
+				break;
+			case 'y':
+				CCW = true;
+				//todo
+				break;
+			case 'Y':
+				CCW = false;
+				//todo
+				break;
+			case 'z':
+				CCW = true;
+				//todo
+				break;
+			case 'Z':
+				CCW = false;
+				//todo
+				break;
+			default:
+				console.write(toInterpret).writeln(" couldn't be interpreted");
+				break;
 		}
-
-		else if(toInterpret == 'b')
+		
+		//Determine necessary moves
+		position = LookupFace(f);
+		
+		//note - add check for gripper clashes
+		switch(position)
 		{
-			commands.push_back(-2);
-		}
-
-		else
-		{
-			console.write(toInterpret).writeln(" couldn't be interpreted");
+			case 1:
+				//No extra commands necessary
+				commands.push_back(3);
+				commands.push_back(4);
+				commands.push_back(1*pow(-1, (int)CCW));
+				break;
+			case 2:
+				//No extra commands necessary
+				commands.push_back(4);
+				commands.push_back(3);
+				commands.push_back(2*pow(-1, (int)CCW));
+				break;
+			case 3:
+				//One extra rotation required
+				commands.push_back(4);
+				commands.push_back(-3);
+				commands.push_back(-2);
+				
+				commands.push_back(3);
+				commands.push_back(1*pow(-1, (int)CCW));
+				grippedFace1 = f;
+				break;
+			case 4:
+				//One extra rotation required
+				commands.push_back(3);
+				commands.push_back(-4);
+				commands.push_back(-1);
+				
+				commands.push_back(4);
+				commands.push_back(2*pow(-1, (int)CCW));
+				grippedFace2 = f;
+				break;
+			case 5:
+				//Two extra rotations required
+				commands.push_back(3);
+				commands.push_back(-4);
+				commands.push_back(1);
+				commands.push_back(1);
+				
+				commands.push_back(4);
+				commands.push_back(2*pow(-1, (int)CCW));
+				grippedFace2 = f;
+				break;
+			case 6:
+				//Two extra rotations required
+				commands.push_back(4);
+				commands.push_back(-3);
+				commands.push_back(2);
+				commands.push_back(2);
+				
+				commands.push_back(3);
+				commands.push_back(1*pow(-1, (int)CCW));
+				grippedFace1 = f;
+				break;
+			default:
+				console.write(toInterpret).writeln(" couldn't be located");
+				shutDown();
+				break;
 		}
 
 		//if commands were established
 		if(commands.size() != 0)
 		{
 			//Integrity check for out of bounds moves
-
 			u_int length = commands.size();
 
-			u_int i = 0;
-			while(i < length)
+			for(u_int i = 0; i < length; i++)
 			{
 				//Update world model for motor offsets
-				if(commands[i] == -1)
+				switch(commands[i])
 				{
-					if(plannedOffsetMotor1 == MINPLANNEDOFFSET)
-					{
-						const int *precalc = fastforward1;//Pointer to a (const int) not a constatn pointer to an int
-
-						u_int j = 0;
-						while(j < sizeof(precalc))
+					case -1:
+						if(plannedOffsetMotor1 == MINPLANNEDOFFSET)
 						{
-							interpretedActions.push_back(precalc[j]);
+							const int *precalc = fastforward1;//Pointer to a (const int) not a constant pointer to an int
 
-							j += 1;
+							for(u_int j = 0; j < sizeof(precalc); j++)
+								interpretedActions.push_back(precalc[j]);
+
+							plannedOffsetMotor1 += 2;//two moves in fastforward
 						}
 
-						plannedOffsetMotor1 += 2;//two moves in fastforward
-					}
+						interpretedActions.push_back(commands[i]);
 
-					interpretedActions.push_back(commands[i]);
-
-					plannedOffsetMotor1 -= 1;
-				}
-
-				else if(commands[i] == 1)
-				{
-					if(plannedOffsetMotor1 == MAXPLANNEDOFFSET)
-					{
-						const int *precalc = rewind1;//Pointer to a (const int) not a constatn pointer to an int
-
-						u_int j = 0;
-						while(j < sizeof(precalc))
+						plannedOffsetMotor1 -= 1;
+						break;
+					case 1:
+						if(plannedOffsetMotor1 == MAXPLANNEDOFFSET)
 						{
-							interpretedActions.push_back(precalc[j]);
+							const int *precalc = rewind1;//Pointer to a (const int) not a constant pointer to an int
 
-							j += 1;
+							for(u_int j = 0; j < sizeof(precalc); j++)
+								interpretedActions.push_back(precalc[j]);
+
+							plannedOffsetMotor1 -= 2;//two moves in rewind
 						}
 
-						plannedOffsetMotor1 -= 2;//two moves in rewind
-					}
+						interpretedActions.push_back(commands[i]);
 
-					interpretedActions.push_back(commands[i]);
-
-					plannedOffsetMotor1 += 1;
-				}
-
-				else if(commands[i] == -2)
-				{
-					if(plannedOffsetMotor2 == MINPLANNEDOFFSET)
-					{
-						const int *precalc = fastforward2;//Pointer to a (const int) not a constatn pointer to an int
-
-						u_int j = 0;
-						while(j < sizeof(precalc))
+						plannedOffsetMotor1 += 1;
+						break;
+					case -2:
+						if(plannedOffsetMotor2 == MINPLANNEDOFFSET)
 						{
-							interpretedActions.push_back(precalc[j]);
+							const int *precalc = fastforward2;//Pointer to a (const int) not a constant pointer to an int
 
-							j += 1;
+							for(u_int j = 0; j < sizeof(precalc); j++)
+								interpretedActions.push_back(precalc[j]);
+
+							plannedOffsetMotor2 += 2;//two moves in fastforward
 						}
 
-						plannedOffsetMotor2 += 2;//two moves in fastforward
-					}
+						interpretedActions.push_back(commands[i]);
 
-					interpretedActions.push_back(commands[i]);
-
-					plannedOffsetMotor2 -= 1;
-				}
-
-				else if(commands[i] == 2)
-				{
-					if(plannedOffsetMotor2 == MAXPLANNEDOFFSET)
-					{
-						const int *precalc = rewind2;//Pointer to a (const int) not a constatn pointer to an int
-
-						u_int j = 0;
-						while(j < sizeof(precalc))
+						plannedOffsetMotor2 -= 1;
+						break;
+					case 2:
+						if(plannedOffsetMotor2 == MAXPLANNEDOFFSET)
 						{
-							interpretedActions.push_back(precalc[j]);
+							const int *precalc = rewind2;//Pointer to a (const int) not a constant pointer to an int
 
-							j += 1;
+							for(u_int j = 0; j < sizeof(precalc); j++)
+								interpretedActions.push_back(precalc[j]);
+
+							plannedOffsetMotor2 -= 2;//two moves in rewind
 						}
 
-						plannedOffsetMotor2 -= 2;//two moves in rewind
-					}
+						interpretedActions.push_back(commands[i]);
 
-					interpretedActions.push_back(commands[i]);
-
-					plannedOffsetMotor2 += 1;
+						plannedOffsetMotor2 += 1;
+						break;
+					case -3:
+						interpretedActions.push_back(commands[i]);
+						break;
+					case 3:
+						interpretedActions.push_back(commands[i]);
+						break;
+					case -4:
+						interpretedActions.push_back(commands[i]);
+						break;
+					case 4:
+						interpretedActions.push_back(commands[i]);
+						break;
 				}
-
-				i += 1;
 			}
 		}
 	}
@@ -768,9 +930,7 @@ bool interpretCommand()
 	return result;
 }
 
-// C++ program to demonstrate
-// accessing of data members
-
+//
 void thread1()
 {
 	//Reading from PC
